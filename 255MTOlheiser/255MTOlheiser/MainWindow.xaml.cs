@@ -27,6 +27,9 @@ namespace _255MTOlheiser
             // Initialize listbox with the first row & divider
             OutputListbox.Items.Add("Year\tQ1 Sales\tQ2 Sales\tQ3 Sales\tQ4 Sales\tSales Total\tTaxes\t\tExpenses\tNet Profit");
             OutputListbox.Items.Add("========================================================================================================================");
+
+            // Clear the Error Label
+            ErrorLabel.Content = "";
         }
 
         // Click Event for the Calculate Button
@@ -35,7 +38,13 @@ namespace _255MTOlheiser
             // Loop from start year input to end year input to display sales 
             // INSIDE LOOP: IF Sales/Taxes/Expenses is checked, run each of their functions to display data.
 
-            // {Output to the listbox} OutputListbox.Items.Add("4");
+            // Initialize values
+            int StartYear, EndYear, MinSales, MaxSales;
+            double SalesTotal, Expenses, NetProfit, Taxes, ExpenseRate; 
+
+            // Input Validation
+
+
 
         }
     }
