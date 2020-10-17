@@ -22,11 +22,11 @@ namespace _255MTOlheiser
         public MainWindow() {
             InitializeComponent();
 
-            // Initialize listbox with the first row & divider
-            OutputListbox.Items.Add("Year\tQ1 Sales\tQ2 Sales\tQ3 Sales\tQ4 Sales\tSales Total\tTaxes\t\tExpenses\tNet Profit");
-            OutputListbox.Items.Add("========================================================================================================================");
+            // Initialize listbox with the first row & divider //($"{StartYear,-7}{Q1Sales,11:N2}{Q2Sales,15:N2}");
+            OutputListbox.Items.Add($"{"Year",-7}{"Q1 Sales",11}{"Q2 Sales",15}{"Q3 Sales",15}{"Q4 Sales",15}{"Sales Total",16}{"Taxes",13}{"Expenses",14}{"Net Profit",16}");
+            OutputListbox.Items.Add("==========================================================================================================================");
 
-            // Clear the Error Label
+            // Clear the Error Label when application loads
             ErrorLabel.Content = "";
         }
 
@@ -35,8 +35,8 @@ namespace _255MTOlheiser
 
             // Initialize values
             int StartYear, EndYear, MinSales, MaxSales;
-            int Q1Sales = -1, Q2Sales = -1, Q3Sales = -1, Q4Sales = -1;
-            double TotalSales = -1, Expenses, NetProfit, Taxes = -1, ExpenseRate;
+            int Q1Sales, Q2Sales, Q3Sales, Q4Sales;
+            double TotalSales, Expenses, NetProfit, Taxes, ExpenseRate;
             string SalesOutput, TaxesOutput, ExpensesOutput;
             // Create an instance of the random object
             rnd = new Random();
@@ -108,18 +108,12 @@ namespace _255MTOlheiser
                 ExpensesOutput = ExpensesCheckbox.IsChecked == true ? $"{Expenses:N2}" : "";
                 // convert totalsales to a string
 
-                // Display Output
-                OutputListbox.Items.Add($"{StartYear}\t{Q1Sales:N2}\t{Q2Sales:N2}\t{Q3Sales:N2}\t{Q4Sales:N2}\t{SalesOutput}\t\t{TaxesOutput}\t\t{ExpensesOutput}\t{NetProfit:N2}");
-                // OutputListbox.Items.Add($"{StartYear}\t{Q1Sales:N2}\t{Q2Sales:N2}\t{Q3Sales:N2}\t{Q4Sales:N2}\t{SalesOutput}\t\t{TaxesOutput}\t\t{ExpensesOutput}\t{NetProfit:N2}");
-
+                // Output a row to the listbox
+                OutputListbox.Items.Add($"{StartYear,-7}{Q1Sales,11:N2}{Q2Sales,15:N2}{Q3Sales,15:N2}{Q4Sales,15:N2}{SalesOutput,16:N2}{TaxesOutput,13:N2}{ExpensesOutput,14:N2}{NetProfit,16:N2}");
+                
                 // Increment Year
                 StartYear++;
             }
-
-
-            
-            
-
         }
 
         // Declare the GetTaxes method with a double parameter

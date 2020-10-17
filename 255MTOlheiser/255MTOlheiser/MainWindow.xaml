@@ -5,23 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_255MTOlheiser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="487.397" Width="897.23">
+        Title="MainWindow" Height="487.397" Width="888.855">
     <Grid>
         <Label Content="Start Year&#xD;&#xA;" HorizontalAlignment="Left" Margin="59,41,0,0" VerticalAlignment="Top"/>
         <Label Content="End Year&#xD;&#xA;" HorizontalAlignment="Left" Margin="59,72,0,0" VerticalAlignment="Top"/>
-        <Label Content="Expense Rate (%)" HorizontalAlignment="Left" Margin="663,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="Expense Rate (%)" HorizontalAlignment="Left" Margin="676,41,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="StartYearTextbox" HorizontalAlignment="Left" Height="23" Margin="124,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159"/>
         <TextBox x:Name="EndYearTextbox" HorizontalAlignment="Left" Height="23" Margin="124,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="159"/>
-        <Label Content="Minimum Quarterly Sales&#xA;" HorizontalAlignment="Left" Margin="321,41,0,0" VerticalAlignment="Top"/>
-        <Label Content="Maximum Quarterly Sales&#xA;" HorizontalAlignment="Left" Margin="320,72,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="MinSalesTextbox" HorizontalAlignment="Left" Height="23" Margin="471,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142"/>
-        <TextBox x:Name="MaxSalesTextbox" HorizontalAlignment="Left" Height="23" Margin="471,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142"/>
-        <TextBox x:Name="ExpenseRateTextbox" HorizontalAlignment="Left" Height="23" Margin="768,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
-        <Button x:Name="CalculateButton" Content="Calculate" HorizontalAlignment="Left" Margin="743,79,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
-        <ListBox x:Name="OutputListbox" HorizontalAlignment="Left" Height="275" Margin="33,150,0,0" VerticalAlignment="Top" Width="819" FontFamily="Consolas"/>
-        <CheckBox x:Name="ExpensesCheckbox" Content="Show Expenses" HorizontalAlignment="Left" Margin="718,118,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="TaxesCheckbox" Content="Show Taxes" HorizontalAlignment="Left" Margin="615,118,0,0" VerticalAlignment="Top"/>
-        <CheckBox x:Name="SalesCheckbox" Content="Show Sales Total" HorizontalAlignment="Left" Margin="484,118,0,0" VerticalAlignment="Top"/>
+        <Label Content="Minimum Quarterly Sales&#xA;" HorizontalAlignment="Left" Margin="333,41,0,0" VerticalAlignment="Top"/>
+        <Label Content="Maximum Quarterly Sales&#xA;" HorizontalAlignment="Left" Margin="332,72,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="MinSalesTextbox" HorizontalAlignment="Left" Height="23" Margin="483,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142"/>
+        <TextBox x:Name="MaxSalesTextbox" HorizontalAlignment="Left" Height="23" Margin="483,76,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142"/>
+        <TextBox x:Name="ExpenseRateTextbox" HorizontalAlignment="Left" Height="23" Margin="781,45,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50"/>
+        <Button x:Name="CalculateButton" Content="Calculate" HorizontalAlignment="Left" Margin="756,79,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <ListBox x:Name="OutputListbox" HorizontalAlignment="Left" Height="286" Margin="20,150,0,0" VerticalAlignment="Top" Width="837" FontFamily="Consolas"/>
+        <CheckBox x:Name="ExpensesCheckbox" Content="Show Expenses" HorizontalAlignment="Left" Margin="731,118,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="TaxesCheckbox" Content="Show Taxes" HorizontalAlignment="Left" Margin="628,118,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="SalesCheckbox" Content="Show Sales Total" HorizontalAlignment="Left" Margin="497,118,0,0" VerticalAlignment="Top"/>
         <Label x:Name="ErrorLabel" Content="Error Label" HorizontalAlignment="Left" Margin="59,104,0,0" VerticalAlignment="Top" Width="306" Foreground="Red"/>
 
     </Grid>
