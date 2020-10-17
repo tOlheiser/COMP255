@@ -23,10 +23,19 @@ namespace _255MTOlheiser
         public MainWindow()
         {
             InitializeComponent();
+
+            // Initialize listbox with the first row & divider
+            OutputListbox.Items.Add("Year\tQ1 Sales\tQ2 Sales\tQ3 Sales\tQ4 Sales\tSales Total\tTaxes\t\tExpenses\tNet Profit");
+            OutputListbox.Items.Add("========================================================================================================================");
         }
 
         // Click Event for the Calculate Button
         private void Button_Click(object sender, RoutedEventArgs e){
+            // Output 'title row'
+            // Loop from start year input to end year input to display sales 
+            // INSIDE LOOP: IF Sales/Taxes/Expenses is checked, run each of their functions to display data.
+
+            // {Output to the listbox} OutputListbox.Items.Add("4");
 
         }
     }
