@@ -24,5 +24,10 @@ namespace _255MTOlheiser
         {
             InitializeComponent();
         }
+
+        // Click Event for the Calculate Button
+        private void Button_Click(object sender, RoutedEventArgs e){
+
+        }
     }
 }
