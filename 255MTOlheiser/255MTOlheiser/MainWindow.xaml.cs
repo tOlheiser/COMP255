@@ -22,7 +22,7 @@ namespace _255MTOlheiser
         public MainWindow() {
             InitializeComponent();
 
-            // Initialize listbox with the first row & divider //($"{StartYear,-7}{Q1Sales,11:N2}{Q2Sales,15:N2}");
+            // Initialize listbox with the first row & divider
             OutputListbox.Items.Add($"{"Year",-7}{"Q1 Sales",11}{"Q2 Sales",15}{"Q3 Sales",15}{"Q4 Sales",15}{"Sales Total",16}{"Taxes",13}{"Expenses",14}{"Net Profit",16}");
             OutputListbox.Items.Add("==========================================================================================================================");
 
@@ -33,17 +33,16 @@ namespace _255MTOlheiser
         // Click Event for the Calculate Button
         private void Button_Click(object sender, RoutedEventArgs e){
 
-            // Initialize values
+            // Initialize variables
             int StartYear, EndYear, MinSales, MaxSales;
             int Q1Sales, Q2Sales, Q3Sales, Q4Sales;
             double TotalSales, Expenses, NetProfit, Taxes, ExpenseRate;
             string SalesOutput, TaxesOutput, ExpensesOutput;
-            // Create an instance of the random object
-            rnd = new Random();
-            
+            rnd = new Random(); // Create an instance of the random object
+
             // Input Validation
 
-            // Display an error message & return if there is a missing input.
+            // Display an error message & break out of the click event if an input is missing.
             if (StartYearTextbox.Text == "" ||
                 EndYearTextbox.Text == ""   ||
                 MinSalesTextbox.Text == ""  ||
@@ -67,11 +66,11 @@ namespace _255MTOlheiser
             } else if (!Double.TryParse(ExpenseRateTextbox.Text, out ExpenseRate)) {
                 ErrorLabel.Content = "Expense Rate is not a number";
                 return;
-            } // End Year must be greater than Start Year
+            } // Break out of the click event if End Year is not greater than Start Year & display a message
             else if (EndYear < StartYear) {
                 ErrorLabel.Content = "End Year must be greater than Start Year";
                 return;
-            // Check to see if the years fall within an acceptable range.
+            // If the years don't fall within an acceptable range, display a message & stop the event.
             } else if (EndYear - StartYear > 25) {
                 ErrorLabel.Content = "The difference between the years cannot be greater than 25";
                 return;
@@ -90,36 +89,38 @@ namespace _255MTOlheiser
 
             // Loop over the required years & perform operations
             while (StartYear <= EndYear) {
-                // Get the sales for each quarter
+                // Generate & store the sales for each quarter in a corresponding variable
+                // When GetSales is called, MinSales & MaxSales are passed in as arguments.
                 Q1Sales = GetSales(MinSales, MaxSales);
                 Q2Sales = GetSales(MinSales, MaxSales);
                 Q3Sales = GetSales(MinSales, MaxSales);
                 Q4Sales = GetSales(MinSales, MaxSales);
 
-                // Calculate Values
+                // Calculate the values using the provided formulas.
                 TotalSales = Q1Sales + Q2Sales + Q3Sales + Q4Sales;
                 Taxes = GetTaxes(TotalSales);
                 Expenses = TotalSales * (ExpenseRate / 100);
                 NetProfit = TotalSales - Taxes - Expenses;
 
-                // Determine the Output Using the state of the checkboxes
+                // Determine the Output based on the state of the checkboxes
+                /* Since SalesOutput is a string, and TotalSales is an integer, I pass a formatted string
+                into SalesOutput if the checkbox is checked. Otherwise, SalesOutput is an empty string.*/
                 SalesOutput = SalesCheckbox.IsChecked == true ? $"{TotalSales:N2}" : "";
                 TaxesOutput = TaxesCheckbox.IsChecked == true ? $"{Taxes:N2}" : "";
                 ExpensesOutput = ExpensesCheckbox.IsChecked == true ? $"{Expenses:N2}" : "";
-                // convert totalsales to a string
 
                 // Output a row to the listbox
-                OutputListbox.Items.Add($"{StartYear,-7}{Q1Sales,11:N2}{Q2Sales,15:N2}{Q3Sales,15:N2}{Q4Sales,15:N2}{SalesOutput,16:N2}{TaxesOutput,13:N2}{ExpensesOutput,14:N2}{NetProfit,16:N2}");
+                OutputListbox.Items.Add($"{StartYear,-7}{Q1Sales,11:N2}{Q2Sales,15:N2}{Q3Sales,15:N2}{Q4Sales,15:N2}{SalesOutput,16}{TaxesOutput,13}{ExpensesOutput,14}{NetProfit,16:N2}");
                 
-                // Increment Year
+                // Increment the start year prior to the next iteration of the loop.
                 StartYear++;
             }
         }
 
-        // Declare the GetTaxes method with a double parameter
+        // Declare the GetTaxes method with a parameter that takes in a 'double' value.
         public double GetTaxes(double Sales) {
             // initialize TaxRate as a double.
-            double TaxRate;
+            double TaxRate, Tax;
 
             // If Sales falls within a given range, set the value of TaxRate corresponding to the range.
             if (Sales < 100000) {
@@ -134,8 +135,9 @@ namespace _255MTOlheiser
                 TaxRate = .35;
             }
 
-            // Return the value of this expression
-            return Sales * TaxRate / 100;
+            // Calculate the value of Tax then return it
+            Tax = Sales * TaxRate / 100;
+            return Tax;
         }
 
         // Declare a GetSales method with two int parameters
