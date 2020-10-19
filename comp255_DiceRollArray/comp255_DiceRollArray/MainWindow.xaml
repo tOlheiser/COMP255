@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:comp255_DiceRollArray"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="371.191">
     <Grid>
-        
+        <Label Content="Number of Dice Sides (4-20)" HorizontalAlignment="Left" Margin="32,33,0,0" VerticalAlignment="Top"/>
+        <Label Content="Number of Rolls" HorizontalAlignment="Left" Margin="96,64,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="DiceSidesTextbox" HorizontalAlignment="Left" Height="23" Margin="208,37,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="DiceRollsTextbox" HorizontalAlignment="Left" Height="23" Margin="208,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <ListBox x:Name="OutputListbox" HorizontalAlignment="Left" Height="242" Margin="32,147,0,0" VerticalAlignment="Top" Width="296"/>
+        <Button x:Name="RollButton" Content="Roll Dice!" HorizontalAlignment="Left" Margin="253,98,0,0" VerticalAlignment="Top" Width="75" Click="RollButton_Click"/>
+
     </Grid>
 </Window>
