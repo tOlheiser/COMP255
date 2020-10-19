@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:comp255_monthArrays"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="344.044" Width="443.49">
     <Grid>
-        <ListBox x:Name="OutputListbox" HorizontalAlignment="Left" Height="399" Margin="10,10,0,0" VerticalAlignment="Top" Width="772"/>
+        <ListBox x:Name="OutputListbox" HorizontalAlignment="Left" Height="292" Margin="10,10,0,0" VerticalAlignment="Top" Width="415"/>
 
     </Grid>
 </Window>
