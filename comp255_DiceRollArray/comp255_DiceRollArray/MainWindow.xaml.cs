@@ -24,14 +24,38 @@ namespace comp255_DiceRollArray
         {
             InitializeComponent();
         }
+
+        private void RollButton_Click(object sender, RoutedEventArgs e) {
+            // initialize variables
+            int RollInput;
+            int DiceSides;
+
+            // Validate inputs 
+            if (!Int32.TryParse(DiceSidesTextbox.Text, out DiceSides)) {
+                // error label
+                return;
+            } else if (!Int32.TryParse(DiceRollsTextbox.Text, out RollInput)) {
+                return;
+            } else if (DiceSides < 4 || DiceSides > 20) {
+                return;
+            } else if (RollInput < 0) {
+                return;
+            }
+
+            // initialize arrays
+            int[] Side = { DiceSides };
+            int[] RollCount = new int[RollInput]; 
+            
+        }
     }
 }
 
 // initialize arrays
-string[] Months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-int[] Dataset = { 10, 15, 25, 5, 3, 30, 11, 8, 12, 35, 20, 7 };
+//string[] Months = { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+//int[] Dataset = { 10, 15, 25, 5, 3, 30, 11, 8, 12, 35, 20, 7 };
 
 // Call Method
+/*
 ShowGraph(Months, Dataset);
             
         }
@@ -53,5 +77,5 @@ ShowGraph(Months, Dataset);
 
         // Add an item to the listbox
         OutputListbox.Items.Add($"{LabelOutput}\t{GraphOutput}");
-    }
-}
+    } 
+} */
