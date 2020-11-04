@@ -50,14 +50,28 @@ namespace comp255_DiceRollArray
             // Clear the Error Label when all checks have passed
             ErrorLabel.Content = "";
 
-            // initialize arrays
-            int[] Side = { DiceSides };
-            int[] RollCount = new int[RollInput];
+            // Initialize the Side & RollCount array and give them the size of the Dice Sides input
+            int[] Side = new int[DiceSides];
+            int[] RollCount = new int[DiceSides];
+
+            for (int i = 0; i < DiceSides; i++) {
+                Side[i] = i + 1; // Populate Side with proper side values.
+                RollCount[i] = 0; // Initialize each index value at 0
+            }
 
             // Populate the RollCount array
             for (int i = 0; i < RollInput; i++) {
                 // Generate a value and store it into the current array index
-                RollCount[i] = rnd.Next(1, DiceSides + 1);
+                int Roll = rnd.Next(1, DiceSides + 1);
+
+                // Begin another loop, checking to see which side lines up to the roll result
+                for (int j = 0; j < DiceSides; j++) { 
+                    // Is the side at the current index == to the roll?
+                    if (Side[j] == Roll) {
+                        // if so, increment the corresponding roll count by 1.
+                        RollCount[j]++;
+                    }
+                }
             }
 
             // Call the method to show the graph
@@ -69,26 +83,19 @@ namespace comp255_DiceRollArray
 
         // Create a ShowGraph method with two int parameters
         public void ShowGraph(int[] Labels, int[] Values) {
-            // initialize local variables
-            string GraphOutput;
-            int LabelOutput;
+            string GraphOutput; // initialize local variable
 
-            // Loop to display the labels
-            for (int i = 1; i <= Labels[0]; i++) {
-                LabelOutput = i; // reassign the label on each iteration
+            // Loop over the labels
+            for (int i = 0; i < Labels.Length; i++) {
                 GraphOutput = ""; // Reset the graph value on each iteration
 
                 // loop over the contents of the Values array
-                for (int j = 0; j < Values.Length; j++) {
-                    // Check that the current label equals the current index of the values array 
-                    if (LabelOutput == Values[j]) {
-                        // increment the label's graph value
-                        GraphOutput += "*";
-                    }
+                for (int j = 0; j < Values[i]; j++) {
+                    GraphOutput += "*"; // Add an asterisk on each iteration
                 }
 
                 // Add a new row to the listbox
-                OutputListbox.Items.Add($"{LabelOutput}\t{GraphOutput}");
+                OutputListbox.Items.Add($"{Labels[i]}\t{GraphOutput}");
             }
         }
     }
