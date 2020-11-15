@@ -7,10 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="249.935" Width="401.345">
     <Grid>
-        <Button x:Name="PreviousButton" Content="Previous" HorizontalAlignment="Left" Margin="29,28,0,0" VerticalAlignment="Top" Width="76"/>
-        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="186,28,0,0" VerticalAlignment="Top" Width="76"/>
-        <Button x:Name="AddButton" Content="Add New" HorizontalAlignment="Left" Margin="282,70,0,0" VerticalAlignment="Top" Width="76"/>
-        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="282,101,0,0" VerticalAlignment="Top" Width="76"/>
+        <Button x:Name="PreviousButton" Content="Previous" HorizontalAlignment="Left" Margin="29,28,0,0" VerticalAlignment="Top" Width="76" Click="PreviousButton_Click"/>
+        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="186,28,0,0" VerticalAlignment="Top" Width="76" Click="NextButton_Click"/>
+        <Button x:Name="AddButton" Content="Add New" HorizontalAlignment="Left" Margin="282,70,0,0" VerticalAlignment="Top" Width="76" Click="AddButton_Click"/>
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="282,101,0,0" VerticalAlignment="Top" Width="76" Click="SaveButton_Click"/>
         <Label Content="First Name:" HorizontalAlignment="Left" Margin="29,64,0,0" VerticalAlignment="Top"/>
         <Label Content="Last Name:" HorizontalAlignment="Left" Margin="29,95,0,0" VerticalAlignment="Top"/>
         <Label Content="Account Number:" HorizontalAlignment="Left" Margin="29,126,0,0" VerticalAlignment="Top"/>
