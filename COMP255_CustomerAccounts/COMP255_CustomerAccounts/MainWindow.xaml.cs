@@ -21,46 +21,51 @@ namespace COMP255_CustomerAccounts {
         public MainWindow() {
             InitializeComponent();
 
+
+            CustomerAccount[] customerAccounts = new CustomerAccount[0];
+
             // when state is set to "read"
             // grey out the fields, make them read only
             // When state is set to "write"
             // make the textboxes writable & make background white.
             // Array.Resize(ref myArr, myArr.Length + 1);
-        }
+        } // End MainWindow
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e) {
+            //FirstNameTextbox.Text = customerAccounts[0]; //AccountInformation.State;
+            //AccountInformation.State = AccountInformation.State == "read" ? "write" : "read";
             // Get the state, array length, and current index.
 
             // if state = "read", 
-            if () {
-                // if arraylength = 0 -> return, display message "No accounts. Please submit an account".
-                // if arraylength = 1 -> return, display message "This is the only account"
-                // if arraylength > 1 -> Set the currentIndex to currentIndex - 1.
-                // ---- If currentIndex = 0 -> set the currentIndex to arrayLength
+            //if () {
+            // if arraylength = 0 -> return, display message "No accounts. Please submit an account".
+            // if arraylength = 1 -> return, display message "This is the only account"
+            // if arraylength > 1 -> Set the currentIndex to currentIndex - 1.
+            // ---- If currentIndex = 0 -> set the currentIndex to arrayLength
 
             // state must = "write"
-            } else { 
-                // validate the form inputs
-                // create a new CustomerAccount object & store it in Form's customerAccounts with Array.Resize
-            }
+            //} else { 
+            // validate the form inputs
+            // create a new CustomerAccount object & store it in Form's customerAccounts with Array.Resize
+            //}
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) {
             // Get the state, array length, and current index.
 
             // if the form state = "read", 
-            if () {
-                // if arraylength = 0 -> return, display message "No accounts. Please submit an account".
-                // if arraylength = 1 -> return, display message "This is the only account"
-                // if arraylength > 1 -> Set the currentIndex to currentIndex - 1.
-                // ---- If currentIndex = arrayLength -> set the currentIndex to 0 
-            }
+            //if () {
+            // if arraylength = 0 -> return, display message "No accounts. Please submit an account".
+            // if arraylength = 1 -> return, display message "This is the only account"
+            // if arraylength > 1 -> Set the currentIndex to currentIndex - 1.
+            // ---- If currentIndex = arrayLength -> set the currentIndex to 0 
+            // }
             // state must = "write"
-            else
-            {
-                // validate the form inputs
-                // create a new CustomerAccount object & store it in Form's customerAccounts with Array.Resize
-            }
+            //else
+            //{
+            // validate the form inputs
+            // create a new CustomerAccount object & store it in Form's customerAccounts with Array.Resize
+            //}
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e) {
@@ -73,17 +78,20 @@ namespace COMP255_CustomerAccounts {
             // 
 
             // if form state = read
-            if () {
-                return;
+            //if () {
+            //  return;
             // otherwise, validate inputs. 
             // create a new CustomerAccount object, passing in the inputs.
             // append the new CustomerAccount object to the form array with Array.Resize
             // grey out the fields & make textboxes read only
-            } else if () {
+            //} else if () {
 
-            }
+            //            }
         }
-    }
+    } // End MainWindow Class
+
+    
+
     class CustomerAccount {
         // initialize instance variables.
         private string firstName;
@@ -91,38 +99,52 @@ namespace COMP255_CustomerAccounts {
         private int accountNumber;
         private double balance;
 
-        // Constructor -- same name as class
-        public CustomerAccount(string first, string last, int accountNum, double accountBalance) {
-            firstName = first;
-            lastName = last;
-            accountNumber = accountNum;
-            balance = accountBalance;
+        // Default Constructor
+        /*public CustomerAccount {
+
+        }*/
+
+        // Custom Constructor -- same name as class
+        public CustomerAccount(string FName, string LName, int AccNumber, double Bal) {
+            FirstName = FName;
+            LastName = LName;
+            AccountNumber = AccNumber;
+            Balance = Bal;
         }
 
-        public string FirstName { 
+        public string FirstName {
             get { return firstName; }
+            set { firstName = FirstName; }
         }
 
         public string LastName {
             get { return lastName; }
+            set { lastName = LastName; }
         }
 
         public int AccountNumber {
             get { return accountNumber; }
+            set { accountNumber = AccountNumber; }
         }
 
-        public double Balance { 
+        public double Balance {
             get { return balance; }
+            set { balance = Balance; }
         }
-    }
-
+    } // End CustomerAccount
+    
     class Form {
-        private string[] customerAccounts = new string[1]; // stores the CustomerAccount objects.
+        private CustomerAccount[] customerAccounts = new CustomerAccount[0]; // stores the CustomerAccount objects.
         // track state of whether the form is read-only (viewing records) or writable.
-        private string state = "write";
+        public string state; 
         private int currentIndex;
 
-        public string[] CustomerAccounts {
+        public Form() {
+            state = "write";
+            currentIndex = 0;
+        }
+
+        public CustomerAccount[] CustomerAccounts {
             get {
                 return customerAccounts;
             }
@@ -152,15 +174,36 @@ namespace COMP255_CustomerAccounts {
         }
 
 
-    }
+    } // End Form Class
 
-    class AccountInformation {
-        static void Main() { 
-            // initialize form
-            Form CustomerForm = new Form();
+    public static class AccountInformation {
+        private static CustomerAccount[] customerAccounts = new CustomerAccount[0];
+        public static string State = "write";
+        public static int FormIndex = 0;
+        // set first before calling.
+        public static string FirstName, LastName;
+        public static int AccountNumber;
+        public static double Balance;
 
-
+        private static CustomerAccount CustomerAccounts {
+            get { return customerAccounts[FormIndex]; }
+            set {
+                Array.Resize(ref customerAccounts, customerAccounts.Length + 1);
+                customerAccounts[customerAccounts.Length] = new CustomerAccount(FirstName, LastName, AccountNumber, Balance);
+            }
         }
     }
+    
+    
+    /*
+        class AccountInformation {
+            static void Main() { 
+                // initialize form
+                Form CustomerForm = new Form();
 
-}
+
+            }
+        }
+
+    }*/
+}// End namespace

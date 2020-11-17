@@ -64,14 +64,16 @@ namespace comp255_DiceRollArray
                 // Generate a value and store it into the current array index
                 int Roll = rnd.Next(1, DiceSides + 1);
 
+                RollCount[Roll]++; // 
+
                 // Begin another loop, checking to see which side lines up to the roll result
-                for (int j = 0; j < DiceSides; j++) { 
-                    // Is the side at the current index == to the roll?
-                    if (Side[j] == Roll) {
-                        // if so, increment the corresponding roll count by 1.
-                        RollCount[j]++;
-                    }
-                }
+                //for (int j = 0; j < DiceSides; j++) { 
+                //    // Is the side at the current index == to the roll?
+                //    if (Side[j] == Roll) {
+                //        // if so, increment the corresponding roll count by 1.
+                //        RollCount[j]++;
+                //    }
+                //}
             }
 
             // Call the method to show the graph
