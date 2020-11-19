@@ -18,79 +18,126 @@ namespace COMP255_CustomerAccounts {
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+        CustomerAccount[] CustomerAccounts;
+        int CurrentRecord;
+        bool IsNewRecord;
+
         public MainWindow() {
             InitializeComponent();
 
+            // When window is first loaded, initialize these values...
+            CurrentRecord = 0;
+            CustomerAccounts = new CustomerAccount[] {
+                new CustomerAccount("Todd", "Marchand", 1333, 12),
+                new CustomerAccount("Leon", "Draisaitl", 1450, 13),
+                new CustomerAccount("Connor", "McDavid", 1650, 20)
+            };
 
-            CustomerAccount[] customerAccounts = new CustomerAccount[0];
-
-            // when state is set to "read"
-            // grey out the fields, make them read only
-            // When state is set to "write"
-            // make the textboxes writable & make background white.
-            // Array.Resize(ref myArr, myArr.Length + 1);
+            // Display the first record in the array
+            DisplayRecord(CurrentRecord);
         } // End MainWindow
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e) {
-            //FirstNameTextbox.Text = customerAccounts[0]; //AccountInformation.State;
-            //AccountInformation.State = AccountInformation.State == "read" ? "write" : "read";
-            // Get the state, array length, and current index.
+            // If SaveRecord() fails to validate, return out
+            if ( !SaveRecord() ) return;
+            
+            // Continue to decrement while currentrecord is greater than 0
+            if (CurrentRecord > 0) {
+                CurrentRecord--;
+            // if CurrentRecord == 0, set the value to the last element of the arry
+            } else {
+                CurrentRecord = CustomerAccounts.Length - 1;
+            }
 
-            // if state = "read", 
-            //if () {
-            // if arraylength = 0 -> return, display message "No accounts. Please submit an account".
-            // if arraylength = 1 -> return, display message "This is the only account"
-            // if arraylength > 1 -> Set the currentIndex to currentIndex - 1.
-            // ---- If currentIndex = 0 -> set the currentIndex to arrayLength
-
-            // state must = "write"
-            //} else { 
-            // validate the form inputs
-            // create a new CustomerAccount object & store it in Form's customerAccounts with Array.Resize
-            //}
+            DisplayRecord(CurrentRecord);
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) {
-            // Get the state, array length, and current index.
+            // If SaveRecord() fails to validate, return out
+            if ( !SaveRecord() ) return;
 
-            // if the form state = "read", 
-            //if () {
-            // if arraylength = 0 -> return, display message "No accounts. Please submit an account".
-            // if arraylength = 1 -> return, display message "This is the only account"
-            // if arraylength > 1 -> Set the currentIndex to currentIndex - 1.
-            // ---- If currentIndex = arrayLength -> set the currentIndex to 0 
-            // }
-            // state must = "write"
-            //else
-            //{
-            // validate the form inputs
-            // create a new CustomerAccount object & store it in Form's customerAccounts with Array.Resize
-            //}
+            // continue to increment while CurrentRecord is less than the last index
+            if (CurrentRecord < CustomerAccounts.Length - 1) {
+                CurrentRecord++;
+            } else {
+                // otherwise set CurrentRecord == to first index.
+                CurrentRecord = 0;
+            }
+
+            DisplayRecord(CurrentRecord);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e) {
+            // Save record as it is.
+            SaveRecord();
+            
             // Clear the inputs
-            // Set form state to "write"
-            // maybe initializer handles if write, do this, if read, do that -> to textboxes
+            FirstNameTextbox.Clear();
+            LastNameTextbox.Clear();
+            AccountNumberTextbox.Clear();
+            BalanceTextbox.Clear();
+
+            // Update the state of IsNewRecord
+            IsNewRecord = true;
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e) {
-            // 
-
-            // if form state = read
-            //if () {
-            //  return;
-            // otherwise, validate inputs. 
-            // create a new CustomerAccount object, passing in the inputs.
-            // append the new CustomerAccount object to the form array with Array.Resize
-            // grey out the fields & make textboxes read only
-            //} else if () {
-
-            //            }
+            SaveRecord(); // Saves the current record as is.
         }
-    } // End MainWindow Class
 
-    
+        // ===== Methods
+        void DisplayRecord(int RecordNumber) {
+            // Displays all the inputs of CustomerAccounts[RecordNumber]
+            FirstNameTextbox.Text = CustomerAccounts[RecordNumber].FirstName;
+            LastNameTextbox.Text = CustomerAccounts[RecordNumber].LastName;
+            AccountNumberTextbox.Text = CustomerAccounts[RecordNumber].AccountNumber.ToString();
+            BalanceTextbox.Text = CustomerAccounts[RecordNumber].Balance.ToString();
+        }
+
+        bool SaveRecord() { 
+            // Check to see if any fields are blank
+            if (FirstNameTextbox.Text == ""     || 
+                LastNameTextbox.Text == ""      ||
+                AccountNumberTextbox.Text == "" ||
+                BalanceTextbox.Text == ""
+               ) {
+                MessageBox.Show("All fields must contain a value.");
+                return false;
+            // Check to see if it is a new record
+            } else if (!IsNewRecord) {
+                // Update the current record of CustomerAccounts
+                CustomerAccounts[CurrentRecord].FirstName = FirstNameTextbox.Text;
+                CustomerAccounts[CurrentRecord].LastName = LastNameTextbox.Text;
+                CustomerAccounts[CurrentRecord].AccountNumber = Convert.ToInt32(AccountNumberTextbox.Text);
+                CustomerAccounts[CurrentRecord].Balance = Convert.ToDouble(BalanceTextbox.Text);
+
+                return true;
+            } else {
+                // Expand the array by one element
+                Array.Resize(ref CustomerAccounts, CustomerAccounts.Length + 1);
+
+                // Set pointer to the new element
+                CurrentRecord = CustomerAccounts.Length - 1;
+
+                // Give values to the new record
+                CustomerAccounts[CurrentRecord] = new CustomerAccount(
+                    FirstNameTextbox.Text,
+                    LastNameTextbox.Text,
+                    Convert.ToInt32(AccountNumberTextbox.Text),
+                    Convert.ToDouble(BalanceTextbox.Text)
+                );
+                
+                // Update the values in the window
+                DisplayRecord(CurrentRecord);
+
+                // Reset the new record flag
+                IsNewRecord = false;
+
+                return true; // Save is FINE
+            }
+        }
+
+    } // End MainWindow Class
 
     class CustomerAccount {
         // initialize instance variables.
@@ -100,9 +147,9 @@ namespace COMP255_CustomerAccounts {
         private double balance;
 
         // Default Constructor
-        /*public CustomerAccount {
-
-        }*/
+        public CustomerAccount() {
+            
+        }
 
         // Custom Constructor -- same name as class
         public CustomerAccount(string FName, string LName, int AccNumber, double Bal) {
@@ -112,98 +159,15 @@ namespace COMP255_CustomerAccounts {
             Balance = Bal;
         }
 
-        public string FirstName {
-            get { return firstName; }
-            set { firstName = FirstName; }
-        }
+        public string FirstName { get; set; }
+        // Incorrect: set { firstName = FirstName; }
+        // Correct: set { firstName = value; }
 
-        public string LastName {
-            get { return lastName; }
-            set { lastName = LastName; }
-        }
+        public string LastName { get; set; }
 
-        public int AccountNumber {
-            get { return accountNumber; }
-            set { accountNumber = AccountNumber; }
-        }
+        public int AccountNumber { get; set; }
 
-        public double Balance {
-            get { return balance; }
-            set { balance = Balance; }
-        }
+        public double Balance { get; set; }
     } // End CustomerAccount
     
-    class Form {
-        private CustomerAccount[] customerAccounts = new CustomerAccount[0]; // stores the CustomerAccount objects.
-        // track state of whether the form is read-only (viewing records) or writable.
-        public string state; 
-        private int currentIndex;
-
-        public Form() {
-            state = "write";
-            currentIndex = 0;
-        }
-
-        public CustomerAccount[] CustomerAccounts {
-            get {
-                return customerAccounts;
-            }
-
-            set {
-                // resize?
-            }
-        }
-        
-        public string State { 
-            get {
-                return state;
-            }
-
-            set {
-                state = value;
-            }
-        }
-        public int CurrentIndex { 
-            get {
-                return currentIndex;
-            }
-
-            set {
-                currentIndex = value;
-            }
-        }
-
-
-    } // End Form Class
-
-    public static class AccountInformation {
-        private static CustomerAccount[] customerAccounts = new CustomerAccount[0];
-        public static string State = "write";
-        public static int FormIndex = 0;
-        // set first before calling.
-        public static string FirstName, LastName;
-        public static int AccountNumber;
-        public static double Balance;
-
-        private static CustomerAccount CustomerAccounts {
-            get { return customerAccounts[FormIndex]; }
-            set {
-                Array.Resize(ref customerAccounts, customerAccounts.Length + 1);
-                customerAccounts[customerAccounts.Length] = new CustomerAccount(FirstName, LastName, AccountNumber, Balance);
-            }
-        }
-    }
-    
-    
-    /*
-        class AccountInformation {
-            static void Main() { 
-                // initialize form
-                Form CustomerForm = new Form();
-
-
-            }
-        }
-
-    }*/
 }// End namespace

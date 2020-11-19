@@ -15,7 +15,7 @@
         <Label Content="Last Name:" HorizontalAlignment="Left" Margin="29,95,0,0" VerticalAlignment="Top"/>
         <Label Content="Account Number:" HorizontalAlignment="Left" Margin="29,126,0,0" VerticalAlignment="Top"/>
         <Label Content="Balance:" HorizontalAlignment="Left" Margin="29,157,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="FirstNameTextbox" HorizontalAlignment="Left" Height="23" Margin="142,67,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="FirstNameTextbox" HorizontalAlignment="Left" Height="42" Margin="142,48,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="LastNameTextbox" HorizontalAlignment="Left" Height="23" Margin="142,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="AccountNumberTextbox" HorizontalAlignment="Left" Height="23" Margin="142,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBox x:Name="BalanceTextbox" HorizontalAlignment="Left" Height="23" Margin="142,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
