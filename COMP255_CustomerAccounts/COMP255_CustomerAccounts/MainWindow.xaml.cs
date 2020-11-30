@@ -28,9 +28,9 @@ namespace COMP255_CustomerAccounts {
             // When window is first loaded, initialize these values...
             CurrentRecord = 0;
             CustomerAccounts = new CustomerAccount[] {
-                new CustomerAccount("Todd", "Marchand", 1333, 12),
-                new CustomerAccount("Leon", "Draisaitl", 1450, 13),
-                new CustomerAccount("Connor", "McDavid", 1650, 20)
+                new CustomerAccount("Jeff", "Spicoli", 1333, 12.75),
+                new CustomerAccount("Stacy", "Hamilton", 1450, 13.90),
+                new CustomerAccount("Mike", "Damone", 1650, 200.80)
             };
 
             // Display the first record in the array
