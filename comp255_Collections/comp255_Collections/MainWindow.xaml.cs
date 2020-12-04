@@ -19,23 +19,30 @@ namespace COMP255_CustomerAccounts
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
-        CustomerAccount[] CustomerAccounts;
-        int CurrentRecord;
+        // Create a list collection of customer accounts
+        List<CustomerAccount> CustomerAccounts = new List<CustomerAccount>(); //CustomerAccount[] CustomerAccounts;
+
+        // Track the position of the index
+        int CurrentRecordPosition = -1;    //int CurrentRecord;
+
+        // Track the object of the current record
+        CustomerAccount CurrentRecord;
+
         bool IsNewRecord;
 
         public MainWindow() {
             InitializeComponent();
 
-            // When window is first loaded, initialize these values...
-            CurrentRecord = 0;
-            CustomerAccounts = new CustomerAccount[] {
-                new CustomerAccount("Jeff", "Spicoli", 1333, 12.75),
-                new CustomerAccount("Stacy", "Hamilton", 1450, 13.90),
-                new CustomerAccount("Mike", "Damone", 1650, 200.80)
-            };
+            // When window is first loaded... 
+            CurrentRecordPosition = 0; // initialize the index
 
-            // Display the first record in the array
-            DisplayRecord(CurrentRecord);
+            // Add to the list collection.
+            AddAccount("Jeff", "Spicoli", 1333, 12.75);
+            AddAccount("Stacy", "Hamilton", 1450, 13.90);
+            AddAccount("Mike", "Damone", 1650, 200.80);
+
+            // Display the first record in the list
+            DisplayRecord(CurrentRecordPosition);
         } // End MainWindow
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e) {
@@ -43,15 +50,14 @@ namespace COMP255_CustomerAccounts
             if (!SaveRecord()) return;
 
             // Continue to decrement while currentrecord is greater than 0
-            if (CurrentRecord > 0) {
-                CurrentRecord--;
-                // if CurrentRecord == 0, set the value to the last element of the arry
-            }
-            else {
-                CurrentRecord = CustomerAccounts.Length - 1;
+            if (CurrentRecordPosition > 0) {
+                CurrentRecordPosition--;
+            // the index is 0. Set the index to the last element of the list
+            } else {
+                CurrentRecordPosition = CustomerAccounts.Count - 1;
             }
 
-            DisplayRecord(CurrentRecord);
+            DisplayRecord(CurrentRecordPosition);
         }
 
         private void NextButton_Click(object sender, RoutedEventArgs e) {
@@ -59,15 +65,14 @@ namespace COMP255_CustomerAccounts
             if (!SaveRecord()) return;
 
             // continue to increment while CurrentRecord is less than the last index
-            if (CurrentRecord < CustomerAccounts.Length - 1) {
-                CurrentRecord++;
-            }
+            if (CurrentRecordPosition < CustomerAccounts.Count - 1) {
+                CurrentRecordPosition++;
+            } // otherwise, set index = to the first index.
             else {
-                // otherwise set CurrentRecord == to first index.
-                CurrentRecord = 0;
+                CurrentRecordPosition = 0;
             }
 
-            DisplayRecord(CurrentRecord);
+            DisplayRecord(CurrentRecordPosition);
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e) {
@@ -107,40 +112,40 @@ namespace COMP255_CustomerAccounts
             {
                 MessageBox.Show("All fields must contain a value.");
                 return false;
-                // Check to see if it is a new record
-            }
-            else if (!IsNewRecord) {
+
+            // if it isn't a new record, update  
+            } else if (!IsNewRecord) {
                 // Update the current record of CustomerAccounts
-                CustomerAccounts[CurrentRecord].FirstName = FirstNameTextbox.Text;
-                CustomerAccounts[CurrentRecord].LastName = LastNameTextbox.Text;
-                CustomerAccounts[CurrentRecord].AccountNumber = Convert.ToInt32(AccountNumberTextbox.Text);
-                CustomerAccounts[CurrentRecord].Balance = Convert.ToDouble(BalanceTextbox.Text);
+                CustomerAccounts[CurrentRecordPosition].FirstName = FirstNameTextbox.Text;
+                CustomerAccounts[CurrentRecordPosition].LastName = LastNameTextbox.Text;
+                CustomerAccounts[CurrentRecordPosition].AccountNumber = Convert.ToInt32(AccountNumberTextbox.Text);
+                CustomerAccounts[CurrentRecordPosition].Balance = Convert.ToDouble(BalanceTextbox.Text);
 
                 return true;
-            }
-            else {
-                // Expand the array by one element
-                Array.Resize(ref CustomerAccounts, CustomerAccounts.Length + 1);
+            } else {
+                // Add the new record to the list
+                AddAccount(FirstNameTextbox.Text, LastNameTextbox.Text, 
+                    Convert.ToInt32(AccountNumberTextbox.Text), Convert.ToDouble(BalanceTextbox.Text));
 
                 // Set pointer to the new element
-                CurrentRecord = CustomerAccounts.Length - 1;
-
-                // Give values to the new record
-                CustomerAccounts[CurrentRecord] = new CustomerAccount(
-                    FirstNameTextbox.Text,
-                    LastNameTextbox.Text,
-                    Convert.ToInt32(AccountNumberTextbox.Text),
-                    Convert.ToDouble(BalanceTextbox.Text)
-                );
+                CurrentRecordPosition = CustomerAccounts.Count - 1;
 
                 // Update the values in the window
-                DisplayRecord(CurrentRecord);
+                DisplayRecord(CurrentRecordPosition);
 
                 // Reset the new record flag
                 IsNewRecord = false;
 
                 return true; // Save is FINE
             }
+        }
+
+        public void AddAccount(string FName, string LName, int AccNumber, double Bal) {
+            // create an Account object, passing in the method values
+            CustomerAccount TempAccount = new CustomerAccount(FName, LName, AccNumber, Bal);
+
+            // Add the temporary placeholder account into the list collection
+            CustomerAccounts.Add(TempAccount);
         }
 
     } // End MainWindow Class
