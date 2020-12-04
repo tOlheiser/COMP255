@@ -18,14 +18,12 @@ namespace COMP255_CustomerAccounts
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow : Window {
         CustomerAccount[] CustomerAccounts;
         int CurrentRecord;
         bool IsNewRecord;
 
-        public MainWindow()
-        {
+        public MainWindow() {
             InitializeComponent();
 
             // When window is first loaded, initialize these values...
@@ -40,37 +38,31 @@ namespace COMP255_CustomerAccounts
             DisplayRecord(CurrentRecord);
         } // End MainWindow
 
-        private void PreviousButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void PreviousButton_Click(object sender, RoutedEventArgs e) {
             // If SaveRecord() fails to validate, return out
             if (!SaveRecord()) return;
 
             // Continue to decrement while currentrecord is greater than 0
-            if (CurrentRecord > 0)
-            {
+            if (CurrentRecord > 0) {
                 CurrentRecord--;
                 // if CurrentRecord == 0, set the value to the last element of the arry
             }
-            else
-            {
+            else {
                 CurrentRecord = CustomerAccounts.Length - 1;
             }
 
             DisplayRecord(CurrentRecord);
         }
 
-        private void NextButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void NextButton_Click(object sender, RoutedEventArgs e) {
             // If SaveRecord() fails to validate, return out
             if (!SaveRecord()) return;
 
             // continue to increment while CurrentRecord is less than the last index
-            if (CurrentRecord < CustomerAccounts.Length - 1)
-            {
+            if (CurrentRecord < CustomerAccounts.Length - 1) {
                 CurrentRecord++;
             }
-            else
-            {
+            else {
                 // otherwise set CurrentRecord == to first index.
                 CurrentRecord = 0;
             }
@@ -78,8 +70,7 @@ namespace COMP255_CustomerAccounts
             DisplayRecord(CurrentRecord);
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void AddButton_Click(object sender, RoutedEventArgs e) {
             // Save record as it is.
             SaveRecord();
 
@@ -93,14 +84,12 @@ namespace COMP255_CustomerAccounts
             IsNewRecord = true;
         }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
+        private void SaveButton_Click(object sender, RoutedEventArgs e) {
             SaveRecord(); // Saves the current record as is.
         }
 
         // ===== Methods
-        void DisplayRecord(int RecordNumber)
-        {
+        void DisplayRecord(int RecordNumber) {
             // Displays all the inputs of CustomerAccounts[RecordNumber]
             FirstNameTextbox.Text = CustomerAccounts[RecordNumber].FirstName;
             LastNameTextbox.Text = CustomerAccounts[RecordNumber].LastName;
@@ -108,8 +97,7 @@ namespace COMP255_CustomerAccounts
             BalanceTextbox.Text = CustomerAccounts[RecordNumber].Balance.ToString();
         }
 
-        bool SaveRecord()
-        {
+        bool SaveRecord() {
             // Check to see if any fields are blank
             if (FirstNameTextbox.Text == "" ||
                 LastNameTextbox.Text == "" ||
@@ -121,8 +109,7 @@ namespace COMP255_CustomerAccounts
                 return false;
                 // Check to see if it is a new record
             }
-            else if (!IsNewRecord)
-            {
+            else if (!IsNewRecord) {
                 // Update the current record of CustomerAccounts
                 CustomerAccounts[CurrentRecord].FirstName = FirstNameTextbox.Text;
                 CustomerAccounts[CurrentRecord].LastName = LastNameTextbox.Text;
@@ -131,8 +118,7 @@ namespace COMP255_CustomerAccounts
 
                 return true;
             }
-            else
-            {
+            else {
                 // Expand the array by one element
                 Array.Resize(ref CustomerAccounts, CustomerAccounts.Length + 1);
 
@@ -168,14 +154,10 @@ namespace COMP255_CustomerAccounts
         private double balance;
 
         // Default Constructor
-        public CustomerAccount()
-        {
-
-        }
+        public CustomerAccount() { }
 
         // Custom Constructor -- same name as class
-        public CustomerAccount(string FName, string LName, int AccNumber, double Bal)
-        {
+        public CustomerAccount(string FName, string LName, int AccNumber, double Bal) {
             FirstName = FName;
             LastName = LName;
             AccountNumber = AccNumber;
