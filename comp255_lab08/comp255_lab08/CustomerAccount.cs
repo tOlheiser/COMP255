@@ -13,15 +13,16 @@ namespace comp255_lab08
         private string lastName;
         private int accountNumber;
         private double balance;
+        public static int numberOfAccounts = 0;
 
         // Default Constructor
         public CustomerAccount() { }
 
         // Custom Constructor -- same name as class
-        public CustomerAccount(string FName, string LName, int AccNumber, double Bal) {
+        public CustomerAccount(string FName, string LName, double Bal) {
             FirstName = FName;
             LastName = LName;
-            AccountNumber = AccNumber;
+            AccountNumber = numberOfAccounts++;
             Balance = Bal;
         }
 
@@ -34,5 +35,6 @@ namespace comp255_lab08
         public int AccountNumber { get; set; }
 
         public double Balance { get; set; }
+
     } // End CustomerAccount
 }
