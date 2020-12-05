@@ -22,14 +22,11 @@ namespace comp255_lab08
     public partial class MainWindow : Window {
         // Create a list collection of customer accounts
         List<CustomerAccount> CustomerAccounts = new List<CustomerAccount>();
-        int CurrentIndex = -1; // Track the position of the index
+        int CurrentIndex = 0; // Track the position of the index
         bool IsNewRecord;
 
         public MainWindow() {
             InitializeComponent();
-
-            // When window is first loaded... 
-            CurrentIndex = 0; // initialize the index
 
             // Populate the List with data
             LoadData();
@@ -46,8 +43,7 @@ namespace comp255_lab08
             if (CurrentIndex > 0) {
                 CurrentIndex--;
                 // the index is 0. Set the index to the last element of the list
-            }
-            else {
+            } else {
                 CurrentIndex = CustomerAccounts.Count - 1;
             }
 
@@ -59,12 +55,10 @@ namespace comp255_lab08
             if (!SaveRecord()) return;
 
             // continue to increment while CurrentRecord is less than the last index
-            if (CurrentIndex < CustomerAccounts.Count - 1)
-            {
+            if (CurrentIndex < CustomerAccounts.Count - 1) {
                 CurrentIndex++;
-            } // otherwise, set index = to the first index.
-            else
-            {
+            // otherwise, set index = to the first index.
+            } else {
                 CurrentIndex = 0;
             }
 
@@ -83,8 +77,7 @@ namespace comp255_lab08
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e) {
             // Add a check to make sure there is an item to be deleted.
-            if (CustomerAccounts.Count == 0)
-            {
+            if (CustomerAccounts.Count == 0) {
                 MessageBox.Show($"There are no records to delete.");
                 return;
             }
@@ -96,13 +89,10 @@ namespace comp255_lab08
             CurrentIndex = CurrentIndex - 1 < 0 ? 0 : CurrentIndex - 1;
 
             // Display the current record
-            if (CustomerAccounts.Count > 0)
-            {
+            if (CustomerAccounts.Count > 0) {
                 DisplayRecord(CurrentIndex);
                 // If there are no records, clear the inputs and update the state of IsNewRecord
-            }
-            else
-            {
+            } else {
                 ClearFields();
                 IsNewRecord = true;
             }
@@ -115,10 +105,12 @@ namespace comp255_lab08
             LastNameTextbox.Text        = CustomerAccounts[RecordNumber].LastName;
             AccountNumberTextbox.Text   = CustomerAccounts[RecordNumber].AccountNumber.ToString();
             BalanceTextbox.Text         = CustomerAccounts[RecordNumber].Balance.ToString();
-
         }
 
         void LoadData() {
+
+            // First clear the List
+            CustomerAccounts.Clear();
 
             // Setup and open a connection
             using (SqlConnection connection = new SqlConnection()) {
@@ -140,7 +132,7 @@ namespace comp255_lab08
                     // Reads all the rows from the reader, returns false when no rows are left
                     while (Reader.Read()) {
                         // Add the data to a list collection
-                        AddAccount((string)Reader["FirstName"],
+                        AddCustomerAccount((string)Reader["FirstName"],
                                    (string)Reader["LastName"],
                                    (int)Reader["AccountNumber"],
                                    Convert.ToDouble(Reader["Balance"]));
@@ -165,20 +157,45 @@ namespace comp255_lab08
                )
             {
                 MessageBox.Show("All fields must contain a value.");
-                return false;
-                // if it isn't a new record, update  
-            }
-            else if (!IsNewRecord) {
+                return false; // redundant? is just 'return;' fine?
+            
+            // if it isn't a new record, update  
+            } else if (!IsNewRecord) {
                 // Update the current record of CustomerAccounts
                 CustomerAccounts[CurrentIndex].FirstName = FirstNameTextbox.Text;
                 CustomerAccounts[CurrentIndex].LastName = LastNameTextbox.Text;
                 CustomerAccounts[CurrentIndex].AccountNumber = Convert.ToInt32(AccountNumberTextbox.Text);
                 CustomerAccounts[CurrentIndex].Balance = Convert.ToDouble(BalanceTextbox.Text);
 
+                // Setup and open a connection
+                using (SqlConnection connection = new SqlConnection())
+                {
+                    // Set the connection string
+                    connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
+
+                    // Open the connection to make use of it
+                    connection.Open();
+
+                    // Create a query to update the record
+                    string query = "UPDATE CustomerAccounts SET " +
+                        $"AccountNumber = {Convert.ToInt32(AccountNumberTextbox.Text)}, " +
+                        $"FirstName = '{FirstNameTextbox.Text}', " +
+                        $"LastName = '{LastNameTextbox.Text}', " +
+                        $"Balance = {Convert.ToDouble(BalanceTextbox.Text)} " +
+                        $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
+
+                    // Create the Update command passing in the query & connection
+                    using (SqlCommand UpdateCommand = new SqlCommand(query, connection)) {
+                        //execute
+                        UpdateCommand.ExecuteNonQuery();
+                    }
+                    connection.Close();
+                }
+
                 return true;
             } else {
                 // Add the new record to the list
-                AddAccount(FirstNameTextbox.Text, LastNameTextbox.Text,
+                AddCustomerAccount(FirstNameTextbox.Text, LastNameTextbox.Text,
                     Convert.ToInt32(AccountNumberTextbox.Text), Convert.ToDouble(BalanceTextbox.Text));
 
                 // Set pointer to the new element
@@ -194,7 +211,7 @@ namespace comp255_lab08
             }
         }
 
-        public void AddAccount(string FName, string LName, int AccNumber, double Bal) {
+        public void AddCustomerAccount(string FName, string LName, int AccNumber, double Bal) {
             // create an Account object, passing in the method values
             CustomerAccount TempAccount = new CustomerAccount(FName, LName, AccNumber, Bal);
 
