@@ -23,6 +23,7 @@ namespace comp255_lab08
         // Create a list collection of customer accounts
         List<CustomerAccount> CustomerAccounts = new List<CustomerAccount>();
         int CurrentIndex = 0; // Track the position of the index
+        int KeyCounter;
         bool IsNewRecord;
 
         public MainWindow() {
@@ -30,6 +31,9 @@ namespace comp255_lab08
 
             // Populate the List with data
             LoadData();
+
+            // Update the counter
+            KeyCounter = CustomerAccounts.Count;
 
             // Display the first record in the list
             DisplayRecord(CurrentIndex);
@@ -80,10 +84,36 @@ namespace comp255_lab08
             if (CustomerAccounts.Count == 0) {
                 MessageBox.Show($"There are no records to delete.");
                 return;
+            } else if (IsNewRecord == true) {
+                // don't proceed if it's a new record.
+                return;
             }
 
             // Remove the record at the current position
-            CustomerAccounts.RemoveAt(CurrentIndex);
+            //CustomerAccounts.RemoveAt(CurrentIndex);
+
+            // Run the query to delete the record
+            using (SqlConnection connection = new SqlConnection()) {
+                // Set the connection string
+                connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
+
+                // Open the connection to make use of it
+                connection.Open();
+
+                // Create a query to delete the record
+                string query = $"DELETE FROM CustomerAccounts " +
+                    $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
+
+                // Create the Update command passing in the query & connection
+                using (SqlCommand UpdateCommand = new SqlCommand(query, connection))
+                {
+                    //execute
+                    UpdateCommand.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+
+            LoadData();
 
             // Make the previous account record the current record
             CurrentIndex = CurrentIndex - 1 < 0 ? 0 : CurrentIndex - 1;
@@ -109,8 +139,9 @@ namespace comp255_lab08
 
         void LoadData() {
 
-            // First clear the List
+            // First clear the List & Reset the counter
             CustomerAccounts.Clear();
+            CustomerAccount.numberOfAccounts = 0;
 
             // Setup and open a connection
             using (SqlConnection connection = new SqlConnection()) {
@@ -131,10 +162,14 @@ namespace comp255_lab08
                 using (SqlDataReader Reader = SelectCommand.ExecuteReader()) {
                     // Reads all the rows from the reader, returns false when no rows are left
                     while (Reader.Read()) {
+                        // Increment counter
+                        CustomerAccount.numberOfAccounts++;
+
                         // Add the data to a list collection
                         AddCustomerAccount((string)Reader["FirstName"],
-                                   (string)Reader["LastName"],
-                                   Convert.ToDouble(Reader["Balance"]));
+                                           (string)Reader["LastName"],
+                                           Convert.ToInt32(Reader["AccountNumber"]),
+                                           Convert.ToDouble(Reader["Balance"]));
                     }
                 }
             }
@@ -192,10 +227,11 @@ namespace comp255_lab08
                 return true;
             } else {
                 // Add the new record to the list
-                AddCustomerAccount(FirstNameTextbox.Text, LastNameTextbox.Text, Convert.ToDouble(BalanceTextbox.Text));
+                //AddCustomerAccount(FirstNameTextbox.Text, LastNameTextbox.Text, CustomerAccount.numberOfAccounts + 1, Convert.ToDouble(BalanceTextbox.Text));
 
-                // Set pointer to the new element
-                CurrentIndex = CustomerAccounts.Count - 1;
+                // Must incremement number of accounts & key counter.
+                CustomerAccount.numberOfAccounts += 1;
+                KeyCounter += 1;
 
                 // Setup and open a connection
                 using (SqlConnection connection = new SqlConnection())
@@ -208,7 +244,7 @@ namespace comp255_lab08
 
                     // Create a query to add a new record
                     string query = "INSERT into CustomerAccounts VALUES (" +
-                        $"{CustomerAccount.numberOfAccounts}, " +
+                        $"{KeyCounter}, " +
                         $"'{FirstNameTextbox.Text}', " +
                         $"'{LastNameTextbox.Text}', " +
                         $"'spearfish@gmail.com', " + 
@@ -226,7 +262,12 @@ namespace comp255_lab08
                     connection.Close();
                 }
 
+                // Load records into the list collection
                 LoadData();
+
+                // Set pointer to the new element
+                CurrentIndex = CustomerAccounts.Count - 1;
+
                 // Update the values in the window
                 DisplayRecord(CurrentIndex);
 
@@ -237,14 +278,20 @@ namespace comp255_lab08
             }
         }
 
-        public void AddCustomerAccount(string FName, string LName, double Bal) {
+        public void AddCustomerAccount(string FName, string LName, int AccountNum, double Bal) {
             // create an Account object, passing in the method values
-            CustomerAccount TempAccount = new CustomerAccount(FName, LName, Bal);
+            CustomerAccount TempAccount = new CustomerAccount(FName, LName, AccountNum, Bal);
 
             // Add the temporary placeholder account into the list collection
             CustomerAccounts.Add(TempAccount);
         }
 
+        private void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show($"Current index: {CurrentIndex}. " +
+                $"Current Account Number: {CustomerAccounts[CurrentIndex].AccountNumber}. " +
+                $"Number of Accounts: {CustomerAccount.numberOfAccounts}");
+        }
     } // End MainWindow Class
 
 }// End namespace

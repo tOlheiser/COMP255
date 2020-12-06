@@ -20,6 +20,7 @@
         <TextBox x:Name="AccountNumberTextbox" HorizontalAlignment="Left" Height="23" Margin="142,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
         <TextBox x:Name="BalanceTextbox" HorizontalAlignment="Left" Height="23" Margin="142,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="283,132,0,0" VerticalAlignment="Top" Width="75" Click="DeleteButton_Click"/>
+        <Button x:Name="TestButton" Content="Test" HorizontalAlignment="Left" Margin="283,163,0,0" VerticalAlignment="Top" Width="75" Click="TestButton_Click"/>
 
     </Grid>
 </Window>
