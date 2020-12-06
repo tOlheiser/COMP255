@@ -89,9 +89,6 @@ namespace comp255_lab08
                 return;
             }
 
-            // Remove the record at the current position
-            //CustomerAccounts.RemoveAt(CurrentIndex);
-
             // Run the query to delete the record
             using (SqlConnection connection = new SqlConnection()) {
                 // Set the connection string
@@ -105,14 +102,15 @@ namespace comp255_lab08
                     $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
 
                 // Create the Update command passing in the query & connection
-                using (SqlCommand UpdateCommand = new SqlCommand(query, connection))
-                {
+                using (SqlCommand UpdateCommand = new SqlCommand(query, connection)) {
                     //execute
                     UpdateCommand.ExecuteNonQuery();
                 }
+                
                 connection.Close();
             }
 
+            // Update accounts
             LoadData();
 
             // Make the previous account record the current record
@@ -135,13 +133,15 @@ namespace comp255_lab08
             LastNameTextbox.Text        = CustomerAccounts[RecordNumber].LastName;
             AccountNumberTextbox.Text   = CustomerAccounts[RecordNumber].AccountNumber.ToString();
             BalanceTextbox.Text         = CustomerAccounts[RecordNumber].Balance.ToString();
+            EmailTextbox.Text           = CustomerAccounts[RecordNumber].Email;
+            PhoneNumberTextbox.Text     = CustomerAccounts[RecordNumber].PhoneNumber;
+            BalanceDateTextbox.Text     = CustomerAccounts[RecordNumber].BalanceDate.ToString();
         }
 
         void LoadData() {
 
             // First clear the List & Reset the counter
             CustomerAccounts.Clear();
-            CustomerAccount.numberOfAccounts = 0;
 
             // Setup and open a connection
             using (SqlConnection connection = new SqlConnection()) {
@@ -152,8 +152,7 @@ namespace comp255_lab08
                 connection.Open();
 
                 // Create a query to select all records
-                string query = "SELECT AccountNumber, FirstName, LastName, Balance " +
-                    "FROM CustomerAccounts;";
+                string query = "SELECT * FROM CustomerAccounts;";
 
                 // Create the Select command passing in the query & connection
                 SqlCommand SelectCommand = new SqlCommand(query, connection);
@@ -162,14 +161,14 @@ namespace comp255_lab08
                 using (SqlDataReader Reader = SelectCommand.ExecuteReader()) {
                     // Reads all the rows from the reader, returns false when no rows are left
                     while (Reader.Read()) {
-                        // Increment counter
-                        CustomerAccount.numberOfAccounts++;
-
                         // Add the data to a list collection
                         AddCustomerAccount((string)Reader["FirstName"],
                                            (string)Reader["LastName"],
                                            Convert.ToInt32(Reader["AccountNumber"]),
-                                           Convert.ToDouble(Reader["Balance"]));
+                                           Convert.ToDouble(Reader["Balance"]),
+                                           (string)Reader["Email"],
+                                           Convert.ToString(Reader["Phone"]),
+                                           (DateTime)Reader["BalanceDate"]);
                     }
                 }
             }
@@ -180,13 +179,19 @@ namespace comp255_lab08
             LastNameTextbox.Clear();
             AccountNumberTextbox.Clear();
             BalanceTextbox.Clear();
+            EmailTextbox.Clear();
+            PhoneNumberTextbox.Clear();
+            BalanceDateTextbox.Clear();
         }
 
         bool SaveRecord() {
             // Check to see if any fields are blank
             if (FirstNameTextbox.Text == "" ||
                 LastNameTextbox.Text == "" ||
-                BalanceTextbox.Text == ""
+                BalanceTextbox.Text == "" ||
+                EmailTextbox.Text == "" ||
+                PhoneNumberTextbox.Text == "" ||
+                BalanceDateTextbox.Text == ""
                )
             {
                 MessageBox.Show("All fields must contain a value.");
@@ -198,6 +203,9 @@ namespace comp255_lab08
                 CustomerAccounts[CurrentIndex].FirstName = FirstNameTextbox.Text;
                 CustomerAccounts[CurrentIndex].LastName = LastNameTextbox.Text;
                 CustomerAccounts[CurrentIndex].Balance = Convert.ToDouble(BalanceTextbox.Text);
+                CustomerAccounts[CurrentIndex].Email = EmailTextbox.Text;
+                CustomerAccounts[CurrentIndex].PhoneNumber = PhoneNumberTextbox.Text;
+                CustomerAccounts[CurrentIndex].BalanceDate = Convert.ToDateTime(BalanceDateTextbox.Text);
 
                 // Setup and open a connection
                 using (SqlConnection connection = new SqlConnection())
@@ -213,7 +221,10 @@ namespace comp255_lab08
                         $"AccountNumber = {Convert.ToInt32(AccountNumberTextbox.Text)}, " +
                         $"FirstName = '{FirstNameTextbox.Text}', " +
                         $"LastName = '{LastNameTextbox.Text}', " +
-                        $"Balance = {Convert.ToDouble(BalanceTextbox.Text)} " +
+                        $"Balance = {Convert.ToDouble(BalanceTextbox.Text)} ," +
+                        $"Email = '{EmailTextbox.Text}', " +
+                        $"Phone = '{PhoneNumberTextbox.Text}', " +
+                        $"BalanceDate = '{BalanceDateTextbox.Text}' " +
                         $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
 
                     // Create the Update command passing in the query & connection
@@ -229,8 +240,7 @@ namespace comp255_lab08
                 // Add the new record to the list
                 //AddCustomerAccount(FirstNameTextbox.Text, LastNameTextbox.Text, CustomerAccount.numberOfAccounts + 1, Convert.ToDouble(BalanceTextbox.Text));
 
-                // Must incremement number of accounts & key counter.
-                CustomerAccount.numberOfAccounts += 1;
+                // increment key counter.
                 KeyCounter += 1;
 
                 // Setup and open a connection
@@ -247,15 +257,15 @@ namespace comp255_lab08
                         $"{KeyCounter}, " +
                         $"'{FirstNameTextbox.Text}', " +
                         $"'{LastNameTextbox.Text}', " +
-                        $"'spearfish@gmail.com', " + 
-                        $"'(306) 421-5263', " + 
-                        $"'2000-02-11', " +
+                        $"'{EmailTextbox.Text}', " + 
+                        $"'{PhoneNumberTextbox.Text}', " +
+                        $"'{BalanceDateTextbox.Text}', " +
+                        //$"'2000-02-11', " +
                         $"{Convert.ToDouble(BalanceTextbox.Text)}" +
                         ");";
 
                     // Create the Update command passing in the query & connection
-                    using (SqlCommand InsertCommand = new SqlCommand(query, connection))
-                    {
+                    using (SqlCommand InsertCommand = new SqlCommand(query, connection)) {
                         //execute
                         InsertCommand.ExecuteNonQuery();
                     }
@@ -278,20 +288,14 @@ namespace comp255_lab08
             }
         }
 
-        public void AddCustomerAccount(string FName, string LName, int AccountNum, double Bal) {
+        public void AddCustomerAccount(string FName, string LName, int AccountNum, double Bal, string EmailAdd, string PhoneNum, DateTime BalDate) {
             // create an Account object, passing in the method values
-            CustomerAccount TempAccount = new CustomerAccount(FName, LName, AccountNum, Bal);
+            CustomerAccount TempAccount = new CustomerAccount(FName, LName, AccountNum, Bal, EmailAdd, PhoneNum, BalDate);
 
             // Add the temporary placeholder account into the list collection
             CustomerAccounts.Add(TempAccount);
         }
 
-        private void TestButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show($"Current index: {CurrentIndex}. " +
-                $"Current Account Number: {CustomerAccounts[CurrentIndex].AccountNumber}. " +
-                $"Number of Accounts: {CustomerAccount.numberOfAccounts}");
-        }
     } // End MainWindow Class
 
 }// End namespace

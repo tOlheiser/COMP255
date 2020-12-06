@@ -5,22 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:comp255_lab08"
         mc:Ignorable="d"
-        Title="MainWindow" Height="249.935" Width="401.345">
+        Title="MainWindow" Height="337.972" Width="446.894">
     <Grid>
-        <Button x:Name="PreviousButton" Content="Previous" HorizontalAlignment="Left" Margin="29,28,0,0" VerticalAlignment="Top" Width="76" Click="PreviousButton_Click"/>
-        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="186,28,0,0" VerticalAlignment="Top" Width="76" Click="NextButton_Click"/>
-        <Button x:Name="AddButton" Content="Add New" HorizontalAlignment="Left" Margin="282,70,0,0" VerticalAlignment="Top" Width="76" Click="AddButton_Click"/>
-        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="282,101,0,0" VerticalAlignment="Top" Width="76" Click="SaveButton_Click"/>
-        <Label Content="First Name:" HorizontalAlignment="Left" Margin="29,64,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="PreviousButton" Content="Previous" HorizontalAlignment="Left" Margin="142,28,0,0" VerticalAlignment="Top" Width="76" Click="PreviousButton_Click"/>
+        <Button x:Name="NextButton" Content="Next" HorizontalAlignment="Left" Margin="234,28,0,0" VerticalAlignment="Top" Width="76" Click="NextButton_Click"/>
+        <Button x:Name="AddButton" Content="Add New" HorizontalAlignment="Left" Margin="337,70,0,0" VerticalAlignment="Top" Width="76" Click="AddButton_Click"/>
+        <Button x:Name="SaveButton" Content="Save" HorizontalAlignment="Left" Margin="337,101,0,0" VerticalAlignment="Top" Width="76" Click="SaveButton_Click"/>
+        <Label Content="First Name:" HorizontalAlignment="Left" Margin="29,62,0,0" VerticalAlignment="Top"/>
         <Label Content="Last Name:" HorizontalAlignment="Left" Margin="29,95,0,0" VerticalAlignment="Top"/>
         <Label Content="Account Number:" HorizontalAlignment="Left" Margin="29,126,0,0" VerticalAlignment="Top"/>
         <Label Content="Balance:" HorizontalAlignment="Left" Margin="29,157,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="FirstNameTextbox" HorizontalAlignment="Left" Height="23" Margin="142,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="LastNameTextbox" HorizontalAlignment="Left" Height="23" Margin="142,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="AccountNumberTextbox" HorizontalAlignment="Left" Height="23" Margin="142,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsEnabled="False"/>
-        <TextBox x:Name="BalanceTextbox" HorizontalAlignment="Left" Height="23" Margin="142,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="283,132,0,0" VerticalAlignment="Top" Width="75" Click="DeleteButton_Click"/>
-        <Button x:Name="TestButton" Content="Test" HorizontalAlignment="Left" Margin="283,163,0,0" VerticalAlignment="Top" Width="75" Click="TestButton_Click"/>
+        <TextBox x:Name="FirstNameTextbox" HorizontalAlignment="Left" Height="23" Margin="142,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+        <TextBox x:Name="LastNameTextbox" HorizontalAlignment="Left" Height="23" Margin="142,98,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+        <TextBox x:Name="AccountNumberTextbox" HorizontalAlignment="Left" Height="23" Margin="142,129,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168" IsEnabled="False"/>
+        <TextBox x:Name="BalanceTextbox" HorizontalAlignment="Left" Height="23" Margin="142,160,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="338,132,0,0" VerticalAlignment="Top" Width="75" Click="DeleteButton_Click"/>
+        <Label Content="Email:" HorizontalAlignment="Left" Margin="29,187,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="EmailTextbox" HorizontalAlignment="Left" Height="23" Margin="142,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+        <Label Content="Phone:" HorizontalAlignment="Left" Margin="29,218,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="PhoneNumberTextbox" HorizontalAlignment="Left" Height="23" Margin="142,221,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
+        <Label Content="Balance Date:" HorizontalAlignment="Left" Margin="29,249,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="BalanceDateTextbox" HorizontalAlignment="Left" Height="23" Margin="142,252,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="168"/>
 
     </Grid>
 </Window>
