@@ -39,6 +39,7 @@ namespace comp255_lab08
             DisplayRecord(CurrentIndex);
         } // End MainWindow
 
+        // Click events
         private void PreviousButton_Click(object sender, RoutedEventArgs e) {
             // If SaveRecord() fails to validate, return out
             if (!SaveRecord()) return;
@@ -90,25 +91,7 @@ namespace comp255_lab08
             }
 
             // Run the query to delete the record
-            using (SqlConnection connection = new SqlConnection()) {
-                // Set the connection string
-                connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
-
-                // Open the connection to make use of it
-                connection.Open();
-
-                // Create a query to delete the record
-                string query = $"DELETE FROM CustomerAccounts " +
-                    $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
-
-                // Create the Update command passing in the query & connection
-                using (SqlCommand UpdateCommand = new SqlCommand(query, connection)) {
-                    //execute
-                    UpdateCommand.ExecuteNonQuery();
-                }
-                
-                connection.Close();
-            }
+            DeleteRecord();
 
             // Update accounts
             LoadData();
@@ -207,33 +190,8 @@ namespace comp255_lab08
                 CustomerAccounts[CurrentIndex].PhoneNumber = PhoneNumberTextbox.Text;
                 CustomerAccounts[CurrentIndex].BalanceDate = Convert.ToDateTime(BalanceDateTextbox.Text);
 
-                // Setup and open a connection
-                using (SqlConnection connection = new SqlConnection())
-                {
-                    // Set the connection string
-                    connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
-
-                    // Open the connection to make use of it
-                    connection.Open();
-
-                    // Create a query to update the record
-                    string query = "UPDATE CustomerAccounts SET " +
-                        $"AccountNumber = {Convert.ToInt32(AccountNumberTextbox.Text)}, " +
-                        $"FirstName = '{FirstNameTextbox.Text}', " +
-                        $"LastName = '{LastNameTextbox.Text}', " +
-                        $"Balance = {Convert.ToDouble(BalanceTextbox.Text)} ," +
-                        $"Email = '{EmailTextbox.Text}', " +
-                        $"Phone = '{PhoneNumberTextbox.Text}', " +
-                        $"BalanceDate = '{BalanceDateTextbox.Text}' " +
-                        $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
-
-                    // Create the Update command passing in the query & connection
-                    using (SqlCommand UpdateCommand = new SqlCommand(query, connection)) {
-                        //execute
-                        UpdateCommand.ExecuteNonQuery();
-                    }
-                    connection.Close();
-                }
+                // no need to load the data, as I only updated a single field and updated the corresponding object
+                UpdateRecord();
 
                 return true;
             } else {
@@ -243,34 +201,7 @@ namespace comp255_lab08
                 // increment key counter.
                 KeyCounter += 1;
 
-                // Setup and open a connection
-                using (SqlConnection connection = new SqlConnection())
-                {
-                    // Set the connection string
-                    connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
-
-                    // Open the connection to make use of it
-                    connection.Open();
-
-                    // Create a query to add a new record
-                    string query = "INSERT into CustomerAccounts VALUES (" +
-                        $"{KeyCounter}, " +
-                        $"'{FirstNameTextbox.Text}', " +
-                        $"'{LastNameTextbox.Text}', " +
-                        $"'{EmailTextbox.Text}', " + 
-                        $"'{PhoneNumberTextbox.Text}', " +
-                        $"'{BalanceDateTextbox.Text}', " +
-                        //$"'2000-02-11', " +
-                        $"{Convert.ToDouble(BalanceTextbox.Text)}" +
-                        ");";
-
-                    // Create the Update command passing in the query & connection
-                    using (SqlCommand InsertCommand = new SqlCommand(query, connection)) {
-                        //execute
-                        InsertCommand.ExecuteNonQuery();
-                    }
-                    connection.Close();
-                }
+                InsertRecord();
 
                 // Load records into the list collection
                 LoadData();
@@ -285,6 +216,92 @@ namespace comp255_lab08
                 IsNewRecord = false;
 
                 return true; // Save is FINE
+            }
+        }
+
+        void DeleteRecord() {
+            using (SqlConnection connection = new SqlConnection())
+            {
+                // Set the connection string
+                connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
+
+                // Open the connection to make use of it
+                connection.Open();
+
+                // Create a query to delete the record
+                string query = $"DELETE FROM CustomerAccounts " +
+                    $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
+
+                // Create the Update command passing in the query & connection
+                using (SqlCommand UpdateCommand = new SqlCommand(query, connection))
+                {
+                    //execute
+                    UpdateCommand.ExecuteNonQuery();
+                }
+
+                connection.Close();
+            }
+        }
+
+        void UpdateRecord() {
+            // Setup and open a connection
+            using (SqlConnection connection = new SqlConnection())
+            {
+                // Set the connection string
+                connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
+
+                // Open the connection to make use of it
+                connection.Open();
+
+                // Create a query to update the record
+                string query = "UPDATE CustomerAccounts SET " +
+                    $"AccountNumber = {Convert.ToInt32(AccountNumberTextbox.Text)}, " +
+                    $"FirstName = '{FirstNameTextbox.Text}', " +
+                    $"LastName = '{LastNameTextbox.Text}', " +
+                    $"Balance = {Convert.ToDouble(BalanceTextbox.Text)} ," +
+                    $"Email = '{EmailTextbox.Text}', " +
+                    $"Phone = '{PhoneNumberTextbox.Text}', " +
+                    $"BalanceDate = '{BalanceDateTextbox.Text}' " +
+                    $"WHERE AccountNumber = {CustomerAccounts[CurrentIndex].AccountNumber};";
+
+                // Create the Update command passing in the query & connection
+                using (SqlCommand UpdateCommand = new SqlCommand(query, connection))
+                {
+                    //execute
+                    UpdateCommand.ExecuteNonQuery();
+                }
+                connection.Close();
+            }
+        }
+
+        void InsertRecord() {
+            // Setup and open a connection
+            using (SqlConnection connection = new SqlConnection())
+            {
+                // Set the connection string
+                connection.ConnectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Owner\Development\comp-255\comp255_lab08\comp255_lab08\CustomerAccounts.mdf; Integrated Security=True";
+
+                // Open the connection to make use of it
+                connection.Open();
+
+                // Create a query to add a new record
+                string query = "INSERT into CustomerAccounts VALUES (" +
+                    $"{KeyCounter}, " +
+                    $"'{FirstNameTextbox.Text}', " +
+                    $"'{LastNameTextbox.Text}', " +
+                    $"'{EmailTextbox.Text}', " +
+                    $"'{PhoneNumberTextbox.Text}', " +
+                    $"'{BalanceDateTextbox.Text}', " +
+                    $"{Convert.ToDouble(BalanceTextbox.Text)}" +
+                    ");";
+
+                // Create the Update command passing in the query & connection
+                using (SqlCommand InsertCommand = new SqlCommand(query, connection))
+                {
+                    //execute
+                    InsertCommand.ExecuteNonQuery();
+                }
+                connection.Close();
             }
         }
 
