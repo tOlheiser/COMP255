@@ -1,0 +1,30 @@
+﻿<Window x:Class="comp255_Final.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:comp255_Final"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="650.693" Width="740.166">
+    <Grid>
+        <Label x:Name="Invoices" Content="Invoices" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top"/>
+        <ListBox HorizontalAlignment="Left" Height="158" Margin="20,54,0,0" VerticalAlignment="Top" Width="689"/>
+        <Label x:Name="InvoiceRecordLabel" Content="Invoice Record" HorizontalAlignment="Left" Margin="20,241,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="InvoiceRecordLabel_Copy" Content="Invoice ID" HorizontalAlignment="Left" Margin="20,272,0,0" VerticalAlignment="Top" Width="107"/>
+        <Label x:Name="InvoiceRecordLabel_Copy1" Content="Customer Name" HorizontalAlignment="Left" Margin="20,303,0,0" VerticalAlignment="Top" Width="107"/>
+        <Label x:Name="InvoiceRecordLabel_Copy2" Content="Customer Address" HorizontalAlignment="Left" Margin="20,334,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="132,275,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="82"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="132,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251"/>
+        <TextBox HorizontalAlignment="Left" Height="65" Margin="132,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251"/>
+        <Label x:Name="InvoiceRecordLabel_Copy3" Content="Invoice Date" HorizontalAlignment="Left" Margin="219,273,0,0" VerticalAlignment="Top" Width="82"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="132,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="301,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
+        <CheckBox Content="Shipped?" HorizontalAlignment="Left" Margin="414,279,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="InvoiceRecordLabel_Copy4" Content="Customer Email" HorizontalAlignment="Left" Margin="414,303,0,0" VerticalAlignment="Top" Width="96"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="515,306,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
+        <Button Content="Save" HorizontalAlignment="Left" Margin="474,383,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="554,383,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button Content="Nww" HorizontalAlignment="Left" Margin="634,383,0,0" VerticalAlignment="Top" Width="75"/>
+
+    </Grid>
+</Window>
