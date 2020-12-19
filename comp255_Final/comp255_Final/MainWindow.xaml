@@ -7,47 +7,47 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="912.467" Width="740.166">
     <Grid>
-        <Label x:Name="Invoices" Content="Invoices" HorizontalAlignment="Left" Margin="19,12,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="InvoiceHeading" Content="Invoices" HorizontalAlignment="Left" Margin="19,12,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <ListBox x:Name="InvoiceListbox" HorizontalAlignment="Left" Height="158" Margin="20,54,0,0" VerticalAlignment="Top" Width="689"/>
-        <Label x:Name="InvoiceRecordLabel" Content="Invoice Record" HorizontalAlignment="Left" Margin="20,230,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Label x:Name="InvoiceRecordLabel_Copy" Content="Invoice ID" HorizontalAlignment="Left" Margin="20,272,0,0" VerticalAlignment="Top" Width="107"/>
-        <Label x:Name="InvoiceRecordLabel_Copy1" Content="Customer Name" HorizontalAlignment="Left" Margin="20,303,0,0" VerticalAlignment="Top" Width="107"/>
-        <Label x:Name="InvoiceRecordLabel_Copy2" Content="Customer Address" HorizontalAlignment="Left" Margin="20,334,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="InvoiceRecordHeading" Content="Invoice Record" HorizontalAlignment="Left" Margin="20,230,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="InvoiceIDLabel" Content="Invoice ID" HorizontalAlignment="Left" Margin="20,272,0,0" VerticalAlignment="Top" Width="107"/>
+        <Label x:Name="CustomerNameLabel" Content="Customer Name" HorizontalAlignment="Left" Margin="20,303,0,0" VerticalAlignment="Top" Width="107"/>
+        <Label x:Name="CustomerAddressLabel" Content="Customer Address" HorizontalAlignment="Left" Margin="20,334,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="132,275,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="82"/>
         <TextBox x:Name="CustomerNameTextbox" HorizontalAlignment="Left" Height="23" Margin="132,307,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251"/>
         <TextBox x:Name="CustomerAddressTextbox" HorizontalAlignment="Left" Height="65" Margin="132,338,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="251"/>
-        <Label x:Name="InvoiceRecordLabel_Copy3" Content="Invoice Date" HorizontalAlignment="Left" Margin="219,273,0,0" VerticalAlignment="Top" Width="82"/>
+        <Label x:Name="InvoiceDateLabel" Content="Invoice Date" HorizontalAlignment="Left" Margin="219,273,0,0" VerticalAlignment="Top" Width="82"/>
         <TextBox x:Name="InvoiceIDTextbox" HorizontalAlignment="Left" Height="23" Margin="132,275,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
         <TextBox x:Name="InvoiceDateTextbox" HorizontalAlignment="Left" Height="23" Margin="301,276,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
         <CheckBox x:Name="ShippedCheckbox" Content="Shipped?" HorizontalAlignment="Left" Margin="419,307,0,0" VerticalAlignment="Top"/>
-        <Label x:Name="InvoiceRecordLabel_Copy4" Content="Customer Email" HorizontalAlignment="Left" Margin="414,276,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="CustomerEmailLabel" Content="Customer Email" HorizontalAlignment="Left" Margin="414,276,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="CustomerEmailTextbox" HorizontalAlignment="Left" Height="23" Margin="515,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
         <Button x:Name="SaveInvoiceButton" Content="Save" HorizontalAlignment="Left" Margin="474,383,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="DeleteInvoiceButton" Content="Delete" HorizontalAlignment="Left" Margin="554,383,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="NewInvoiceButton" Content="New" HorizontalAlignment="Left" Margin="634,383,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label x:Name="Invoices_Copy" Content="Invoice Items" HorizontalAlignment="Left" Margin="20,421,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="InvoiceItemsHeading" Content="Invoice Items" HorizontalAlignment="Left" Margin="20,421,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <ListBox x:Name="InvoiceItemsListbox" HorizontalAlignment="Left" Height="158" Margin="20,463,0,0" VerticalAlignment="Top" Width="689"/>
-        <Label x:Name="InvoiceRecordLabel_Copy5" Content="Subtotal" HorizontalAlignment="Left" Margin="551,634,0,0" VerticalAlignment="Top" Width="65"/>
+        <Label x:Name="SubtotalLabel" Content="Subtotal" HorizontalAlignment="Left" Margin="551,634,0,0" VerticalAlignment="Top" Width="65"/>
         <TextBox x:Name="SubtotalTextbox" HorizontalAlignment="Left" Height="23" Margin="627,637,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
-        <Label x:Name="InvoiceRecordLabel_Copy6" Content="PST (6%)" HorizontalAlignment="Left" Margin="551,662,0,0" VerticalAlignment="Top" Width="65"/>
+        <Label x:Name="PSTLabel" Content="PST (6%)" HorizontalAlignment="Left" Margin="551,662,0,0" VerticalAlignment="Top" Width="65"/>
         <TextBox x:Name="PSTTextbox" HorizontalAlignment="Left" Height="23" Margin="627,665,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
-        <Label x:Name="InvoiceRecordLabel_Copy7" Content="GST (5%)" HorizontalAlignment="Left" Margin="551,690,0,0" VerticalAlignment="Top" Width="65"/>
+        <Label x:Name="GSTLabel" Content="GST (5%)" HorizontalAlignment="Left" Margin="551,690,0,0" VerticalAlignment="Top" Width="65"/>
         <TextBox x:Name="GSTTextbox" HorizontalAlignment="Left" Height="23" Margin="627,693,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
-        <Label x:Name="InvoiceRecordLabel_Copy8" Content="Total" HorizontalAlignment="Left" Margin="551,718,0,0" VerticalAlignment="Top" Width="65"/>
+        <Label x:Name="TotalLabel" Content="Total" HorizontalAlignment="Left" Margin="551,718,0,0" VerticalAlignment="Top" Width="65"/>
         <TextBox x:Name="TotalTextbox" HorizontalAlignment="Left" Height="23" Margin="627,721,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82"/>
-        <Label x:Name="InvoiceRecordLabel_Copy9" Content="Item ID" HorizontalAlignment="Left" Margin="20,718,0,0" VerticalAlignment="Top" Width="68"/>
+        <Label x:Name="ItemIDLabel" Content="Item ID" HorizontalAlignment="Left" Margin="20,718,0,0" VerticalAlignment="Top" Width="68"/>
         <TextBox x:Name="ItemIDTextbox" HorizontalAlignment="Left" Height="23" Margin="123,723,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
-        <Label x:Name="InvoiceRecordLabel_Copy10" Content="Invoice Items Record" HorizontalAlignment="Left" Margin="20,676,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="InvoiceItemsRecordHeading" Content="Invoice Items Record" HorizontalAlignment="Left" Margin="20,676,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <Button x:Name="SaveInvoiceItemButton" Content="Save" HorizontalAlignment="Left" Margin="220,724,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="DeleteInvoiceItemButton" Content="Delete" HorizontalAlignment="Left" Margin="300,724,0,0" VerticalAlignment="Top" Width="75"/>
         <Button x:Name="NewInvoiceItemButton" Content="New" HorizontalAlignment="Left" Margin="380,724,0,0" VerticalAlignment="Top" Width="75"/>
-        <Label x:Name="InvoiceRecordLabel_Copy11" Content="Item Name" HorizontalAlignment="Left" Margin="19,748,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="ItemNameLabel" Content="Item Name" HorizontalAlignment="Left" Margin="19,748,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="ItemNameTextbox" HorizontalAlignment="Left" Height="23" Margin="123,751,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
-        <Label x:Name="InvoiceRecordLabel_Copy12" Content="Item Description" HorizontalAlignment="Left" Margin="19,776,0,0" VerticalAlignment="Top" Width="99"/>
+        <Label x:Name="ItemDescriptionLabel" Content="Item Description" HorizontalAlignment="Left" Margin="19,776,0,0" VerticalAlignment="Top" Width="99"/>
         <TextBox x:Name="ItemDescriptionTextbox" HorizontalAlignment="Left" Height="23" Margin="123,779,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
-        <Label x:Name="InvoiceRecordLabel_Copy13" Content="Item Price" HorizontalAlignment="Left" Margin="19,804,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="ItemPriceLabel" Content="Item Price" HorizontalAlignment="Left" Margin="19,804,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="ItemPriceTextbox" HorizontalAlignment="Left" Height="23" Margin="123,807,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74"/>
-        <Label x:Name="InvoiceRecordLabel_Copy14" Content="Item Quantity" HorizontalAlignment="Left" Margin="19,832,0,0" VerticalAlignment="Top" Width="96"/>
+        <Label x:Name="ItemQuantityLabel" Content="Item Quantity" HorizontalAlignment="Left" Margin="19,832,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="ItemQuantityTextbox" HorizontalAlignment="Left" Height="23" Margin="123,835,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" TextChanged="TextBox_TextChanged"/>
 
     </Grid>
