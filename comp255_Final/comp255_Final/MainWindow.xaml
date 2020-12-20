@@ -48,7 +48,7 @@
         <Label x:Name="ItemPriceLabel" Content="Item Price" HorizontalAlignment="Left" Margin="19,804,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="ItemPriceTextbox" HorizontalAlignment="Left" Height="23" Margin="123,807,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74"/>
         <Label x:Name="ItemQuantityLabel" Content="Item Quantity" HorizontalAlignment="Left" Margin="19,832,0,0" VerticalAlignment="Top" Width="96"/>
-        <TextBox x:Name="ItemQuantityTextbox" HorizontalAlignment="Left" Height="23" Margin="123,835,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" TextChanged="TextBox_TextChanged"/>
+        <TextBox x:Name="ItemQuantityTextbox" HorizontalAlignment="Left" Height="23" Margin="123,835,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74"/>
 
     </Grid>
 </Window>
