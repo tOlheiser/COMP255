@@ -232,5 +232,48 @@ namespace comp255_Final
             GSTTextbox.Text = "";
             TotalTextbox.Text = "";
         }
+
+        public bool IsDataValid(string entry) {
+            // check to see which form requires validation
+            if (entry == "Invoice") {
+                // check that the required fields have values
+                if (CustomerNameTextbox.Text == "" || 
+                    CustomerEmailTextbox.Text == "" || 
+                    InvoiceDateTextbox.Text == "") {
+
+                    // Display an error label then return
+                    InvoiceErrorLabel.Content = "Customer Name, Email, and Invoice Date must have values.";
+                    return false;
+                // Otherwise, make the data valid.
+                } else {
+                    // Clear the label then return true
+                    InvoiceErrorLabel.Content = "";
+                    return true;
+                }
+            // Perform checks on the Invoice Item fields
+            } else {
+                // check to see if the entered data is empty
+                if (ItemNameTextbox.Text == "" ||
+                    ItemPriceTextbox.Text == "" ||
+                    ItemQuantityTextbox.Text == "") {
+
+                    // Display an error label then return
+                    InvoiceItemErrorLabel.Content = "Item Name, Price, and Quantity must have values.";
+                    return false;
+                // check to see if the number is negative
+                } else if (Convert.ToDouble(ItemPriceTextbox.Text) < 0 ||
+                           Convert.ToInt32(ItemQuantityTextbox.Text) < 0) {
+
+                    // display error message then return
+                    InvoiceItemErrorLabel.Content = "Item Price and Quantity must be positive values.";
+                    return false;
+                // decalre the data is valid
+                } else {
+                    return true;
+                }
+            }
+        }
+
+
     }
 }
