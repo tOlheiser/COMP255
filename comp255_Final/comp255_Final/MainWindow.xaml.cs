@@ -24,7 +24,7 @@ namespace comp255_Final
         // Setting up variables and list collections to track state
         double Subtotal = 0; double GST = 0; double PST = 0; double Total = 0;
         bool IsNewInvoice, IsNewInvoiceItem;
-        int InvoiceIndex = 0;
+        int InvoiceIndex = 0; int InvoiceItemsIndex = 0;
         Invoice CurrentInvoice = new Invoice();
         InvoiceItem CurrentInvoiceItem = new InvoiceItem();
         List<Invoice> InvoiceCollection = new List<Invoice>();
@@ -147,6 +147,7 @@ namespace comp255_Final
         }
 
         void DisplayInvoiceItemRecords() {
+            //InvoiceListbox.Items.Clear();
             // Loop over InvoiceItemCollection to add string representations of InvoiceItem objects
             for (int i = 0; i < InvoiceItemCollection.Count; i++) {
                 InvoiceItemsListbox.Items.Add(InvoiceItemCollection[i].ToString());
@@ -155,7 +156,7 @@ namespace comp255_Final
 
         void DisplayInvoiceFields() {
             // Update the Invoice fields
-            InvoiceIDTextbox.Text = "Hello tanner-san";//Convert.ToString(CurrentInvoice.InvoiceID);
+            InvoiceIDTextbox.Text = CurrentInvoice.InvoiceID.ToString();//Convert.ToString(CurrentInvoice.InvoiceID);
             CustomerNameTextbox.Text = CurrentInvoice.CustomerName;
             CustomerAddressTextbox.Text = CurrentInvoice.CustomerAddress;
             InvoiceDateTextbox.Text = Convert.ToString(CurrentInvoice.InvoiceDate);
@@ -181,6 +182,34 @@ namespace comp255_Final
             TotalTextbox.Text = Convert.ToString(Total);
         }
 
+        private void InvoiceListbox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            InvoiceItemsListbox.Items.Clear();
+            InvoiceIndex = InvoiceListbox.SelectedIndex;// Update the state of the current index for Invoice
+            CurrentInvoice = InvoiceCollection[InvoiceIndex];
+            DisplayInvoiceFields();
+            LoadInvoiceItems(CurrentInvoice.InvoiceID);
+            DisplayInvoiceItemRecords();
+        }
+
+        private void InvoiceItemsListbox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+            InvoiceItemsIndex = InvoiceItemsListbox.SelectedIndex;
+
+            // check to see if the Invoice selected has any InvoiceItems
+            if (InvoiceItemsIndex == -1) {
+                // Clear the InvoiceItems form fields
+                ClearInvoiceItemsFields();
+
+                // Break out of the event
+                return;
+            }
+
+            //ItemIDTextbox.Text = InvoiceItemsIndex.ToString();
+            CurrentInvoiceItem = InvoiceItemCollection[InvoiceItemsIndex];
+            DisplayInvoiceItemFields();
+
+            
+        }
+
         void CalculatePriceTotals() {
             // Loop over each InvoiceItem, adding to the Subtotal
             for (int i = 0; i < InvoiceItemCollection.Count; i++) {
@@ -192,5 +221,16 @@ namespace comp255_Final
             Total = Subtotal + GST + PST;
         }
 
+        void ClearInvoiceItemsFields() {
+            ItemIDTextbox.Text = "";
+            ItemNameTextbox.Text = "";
+            ItemDescriptionTextbox.Text = "";
+            ItemPriceTextbox.Text = "";
+            ItemQuantityTextbox.Text = "";
+            SubtotalTextbox.Text = ""; 
+            PSTTextbox.Text = "";
+            GSTTextbox.Text = "";
+            TotalTextbox.Text = "";
+        }
     }
 }
