@@ -24,7 +24,7 @@ namespace comp255_Final
         // Setting up variables and list collections to track state
         double Subtotal = 0; double GST = 0; double PST = 0; double Total = 0;
         bool IsNewInvoice, IsNewInvoiceItem;
-        int InvoiceIndex;
+        int InvoiceIndex = 0;
         Invoice CurrentInvoice = new Invoice();
         InvoiceItem CurrentInvoiceItem = new InvoiceItem();
         List<Invoice> InvoiceCollection = new List<Invoice>();
@@ -39,10 +39,14 @@ namespace comp255_Final
 
             // Load the invoices then set the index to the first item of that collection
             LoadInvoices();
-            InvoiceIndex = 0;
             LoadInvoiceItems(InvoiceCollection[InvoiceIndex].InvoiceID);
             DisplayInvoiceRecords();
-            DisplayInvoiceItemRecords();
+            //DisplayInvoiceItemRecords();
+
+            // On selection change, the index of the selected listbox item will be used here.
+            //CurrentInvoice = InvoiceCollection[InvoiceIndex];
+
+            //DisplayInvoiceFields();
 
         }
 
@@ -151,7 +155,7 @@ namespace comp255_Final
 
         void DisplayInvoiceFields() {
             // Update the Invoice fields
-            InvoiceIDTextbox.Text = Convert.ToString(CurrentInvoice.InvoiceID);
+            InvoiceIDTextbox.Text = "Hello tanner-san";//Convert.ToString(CurrentInvoice.InvoiceID);
             CustomerNameTextbox.Text = CurrentInvoice.CustomerName;
             CustomerAddressTextbox.Text = CurrentInvoice.CustomerAddress;
             InvoiceDateTextbox.Text = Convert.ToString(CurrentInvoice.InvoiceDate);
@@ -180,7 +184,7 @@ namespace comp255_Final
         void CalculatePriceTotals() {
             // Loop over each InvoiceItem, adding to the Subtotal
             for (int i = 0; i < InvoiceItemCollection.Count; i++) {
-                Subtotal += InvoiceItemCollection[i].ItemPrice;
+                Subtotal += InvoiceItemCollection[i].ItemPrice * InvoiceItemCollection[i].ItemQuantity;
             }
             // Calculate and update the price data
             PST = Subtotal * 0.06;
