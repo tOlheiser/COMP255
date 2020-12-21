@@ -21,9 +21,9 @@
         <CheckBox x:Name="ShippedCheckbox" Content="Shipped?" HorizontalAlignment="Left" Margin="419,307,0,0" VerticalAlignment="Top"/>
         <Label x:Name="CustomerEmailLabel" Content="Customer Email" HorizontalAlignment="Left" Margin="414,276,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="CustomerEmailTextbox" HorizontalAlignment="Left" Height="23" Margin="515,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
-        <Button x:Name="SaveInvoiceButton" Content="Save" HorizontalAlignment="Left" Margin="474,383,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="DeleteInvoiceButton" Content="Delete" HorizontalAlignment="Left" Margin="554,383,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="NewInvoiceButton" Content="New" HorizontalAlignment="Left" Margin="634,383,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="SaveInvoiceButton" Content="Save" HorizontalAlignment="Left" Margin="474,383,0,0" VerticalAlignment="Top" Width="75" Click="SaveInvoiceButton_Click"/>
+        <Button x:Name="DeleteInvoiceButton" Content="Delete" HorizontalAlignment="Left" Margin="554,383,0,0" VerticalAlignment="Top" Width="75" Click="DeleteInvoiceButton_Click"/>
+        <Button x:Name="NewInvoiceButton" Content="New" HorizontalAlignment="Left" Margin="634,383,0,0" VerticalAlignment="Top" Width="75" Click="NewInvoiceButton_Click"/>
         <Label x:Name="InvoiceItemsHeading" Content="Invoice Items" HorizontalAlignment="Left" Margin="20,474,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
         <ListBox x:Name="InvoiceItemsListbox" HorizontalAlignment="Left" Height="158" Margin="20,516,0,0" VerticalAlignment="Top" Width="689" SelectionChanged="InvoiceItemsListbox_SelectionChanged"/>
         <Label x:Name="SubtotalLabel" Content="Subtotal" HorizontalAlignment="Left" Margin="551,687,0,0" VerticalAlignment="Top" Width="65"/>
@@ -37,9 +37,9 @@
         <Label x:Name="ItemIDLabel" Content="Item ID" HorizontalAlignment="Left" Margin="20,771,0,0" VerticalAlignment="Top" Width="68"/>
         <TextBox x:Name="ItemIDTextbox" HorizontalAlignment="Left" Height="23" Margin="123,776,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" IsEnabled="False"/>
         <Label x:Name="InvoiceItemsRecordHeading" Content="Invoice Items Record" HorizontalAlignment="Left" Margin="20,729,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <Button x:Name="SaveInvoiceItemButton" Content="Save" HorizontalAlignment="Left" Margin="220,777,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="DeleteInvoiceItemButton" Content="Delete" HorizontalAlignment="Left" Margin="300,777,0,0" VerticalAlignment="Top" Width="75"/>
-        <Button x:Name="NewInvoiceItemButton" Content="New" HorizontalAlignment="Left" Margin="380,777,0,0" VerticalAlignment="Top" Width="75"/>
+        <Button x:Name="SaveInvoiceItemButton" Content="Save" HorizontalAlignment="Left" Margin="220,777,0,0" VerticalAlignment="Top" Width="75" Click="SaveInvoiceItemButton_Click"/>
+        <Button x:Name="DeleteInvoiceItemButton" Content="Delete" HorizontalAlignment="Left" Margin="300,777,0,0" VerticalAlignment="Top" Width="75" Click="DeleteInvoiceItemButton_Click"/>
+        <Button x:Name="NewInvoiceItemButton" Content="New" HorizontalAlignment="Left" Margin="380,777,0,0" VerticalAlignment="Top" Width="75" Click="NewInvoiceItemButton_Click"/>
         <Label x:Name="ItemNameLabel" Content="Item Name" HorizontalAlignment="Left" Margin="19,801,0,0" VerticalAlignment="Top" Width="96"/>
         <TextBox x:Name="ItemNameTextbox" HorizontalAlignment="Left" Height="23" Margin="123,804,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="194"/>
         <Label x:Name="ItemDescriptionLabel" Content="Item Description" HorizontalAlignment="Left" Margin="19,829,0,0" VerticalAlignment="Top" Width="99"/>
