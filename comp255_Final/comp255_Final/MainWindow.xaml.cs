@@ -18,45 +18,68 @@ namespace comp255_Final {
 
     public partial class MainWindow : Window {
 
-        // Setting up variables and list collections to track state
+        // declaring variables to track price information
         double Subtotal = 0; double GST = 0; double PST = 0; double Total = 0;
-        int InvoiceIndex = 0; int InvoiceItemsIndex = 0; int PreviousIndex = 0;
+
+        // declaring variable to track the current index and previous index
+        int InvoiceIndex = -1; int InvoiceItemsIndex = 0; 
+        int PreviousInvoiceIndex = 0; int PreviousInvoiceItemIndex = 0;
+
+        // declare variables to track how many records there are
         int InvoiceCount = 0; int InvoiceItemsCount = 0;
+        
+        // declare variables that track if a new record has been submitted
         bool IsNewInvoice = false; bool IsNewInvoiceItem = false;
+
+        // Initialize the Invoice & InvoiceItems objects and collections
         Invoice CurrentInvoice = new Invoice();
         InvoiceItem CurrentInvoiceItem = new InvoiceItem();
+        List<Invoice> InvoiceCollection = new List<Invoice>();
+        List<InvoiceItem> InvoiceItemCollection = new List<InvoiceItem>();
 
         public MainWindow() {
             InitializeComponent();
 
             // Load the invoices 
             LoadInvoices();
+
+            // Initialize listbox labels
+            InvoiceHeadings.Content = $"{"Invoice ID",5}{" ", -10}{"Customer",-40}{"Email",-40}{"Shipped",-8}";
+            InvoiceItemHeadings.Content = $"{"Item ID",5}{" ",-3}{"Item Name",-30}{"Item Description",-40}" +
+                $"{"Item Price",-20}{"Item Quantity",-20}{"Price",-5}";
+
+            // Clear the error labels
+            InvoiceErrorLabel.Content = "";
+            InvoiceItemErrorLabel.Content = "";
         }
 
         // ---- Events
+
         // Selection changed
         private void InvoiceListbox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             // Update the current index of the Invoice listbox
             InvoiceIndex = InvoiceListbox.SelectedIndex;
 
-            // error handling - no item selected
-            if (InvoiceIndex == -1) {
+            // Clear the error labels
+            InvoiceErrorLabel.Content = "";
+            InvoiceItemErrorLabel.Content = "";
 
-                // Check to see if it's a new record
-                if (IsNewInvoice == true) {
-                    // update the listbox selected index
-                    // InvoiceCount = quick fix; InvoiceListbox.Items.Count returned '0'.
-                    InvoiceListbox.SelectedIndex = InvoiceCount; 
-                    InvoiceListbox.ScrollIntoView(CurrentInvoice);
-                    IsNewInvoice = false; // reset value
-                    return;
-                }
-
+            // Check to see if it's a new record
+            if (IsNewInvoice == true) {
+                // update the listbox selected index
+                // InvoiceCount = quick fix; InvoiceListbox.Items.Count returned '0'.
+                InvoiceListbox.SelectedIndex = InvoiceCount;
+                InvoiceListbox.ScrollIntoView(CurrentInvoice);
+                IsNewInvoice = false; // reset value
+                return;
+            }
+            // check if no item has been selected
+            else if (InvoiceIndex == -1) {
                 // Find the new record in the listbox
                 InvoiceIndex = InvoiceListbox.Items.IndexOf(CurrentInvoice);
 
                 // Select the new item and scroll to it
-                InvoiceListbox.SelectedIndex = InvoiceIndex;
+                InvoiceListbox.SelectedIndex = PreviousInvoiceIndex;
                 InvoiceListbox.ScrollIntoView(CurrentInvoice);
 
                 // Break out of the event
@@ -66,6 +89,9 @@ namespace comp255_Final {
             // Store the updated value of the CurrentInvoice object
             CurrentInvoice = (Invoice)InvoiceListbox.SelectedItem;// Update the CurrentInvoice
 
+            // Update the InvoiceID property of the CurrentInvoiceItem
+            CurrentInvoiceItem.InvoiceID = CurrentInvoice.InvoiceID;
+
             // Load & Display Data
             LoadInvoiceItems(CurrentInvoice.InvoiceID);
             DisplayInvoiceFields();
@@ -74,27 +100,27 @@ namespace comp255_Final {
         private void InvoiceItemsListbox_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             // Updated the index of the Invoice Items listbox
             InvoiceItemsIndex = InvoiceItemsListbox.SelectedIndex;
+            
+            // Clear the error labels
+            InvoiceErrorLabel.Content = "";
+            InvoiceItemErrorLabel.Content = "";
 
-            // error handling - no item selected
-            if (InvoiceItemsIndex == -1) {
-
-                // Check to see if it's a new record
-                if (IsNewInvoiceItem == true) {
-                    // update the listbox selected index
-                    InvoiceItemsListbox.SelectedIndex = InvoiceItemsCount;
-                    InvoiceItemsListbox.ScrollIntoView(CurrentInvoiceItem);
-                    IsNewInvoiceItem = false; // reset value
-                    return;
-                }
-
+            // Check to see if it's a new record
+            if (IsNewInvoiceItem == true) {
+                // update the listbox selected index
+                InvoiceListbox.SelectedIndex = PreviousInvoiceIndex;
+                InvoiceItemsListbox.SelectedIndex = InvoiceItemsCount;
+                IsNewInvoiceItem = false; // reset value
+                return;
+            } // if no item selected
+            else if (InvoiceItemsIndex == -1) {
                 // Select the previously selected item and scroll to it
-                InvoiceItemsListbox.SelectedIndex = PreviousIndex;
+                InvoiceItemsListbox.SelectedIndex = PreviousInvoiceItemIndex;
                 InvoiceItemsListbox.ScrollIntoView(CurrentInvoiceItem);
 
                 // Break out of the event
                 return;
             }
-
             // Load & Display Data
             CurrentInvoiceItem = (InvoiceItem)InvoiceItemsListbox.SelectedItem;
             DisplayInvoiceItemFields();
@@ -102,8 +128,12 @@ namespace comp255_Final {
 
         // Save Buttons
         private void SaveInvoiceButton_Click(object sender, RoutedEventArgs e) {
+            // if nothing is selected, break out of the event
+            if (InvoiceListbox.SelectedIndex == -1) {
+                return;
             // If the data validates successfully, execute an update query
-            if (IsDataValid("Invoice")) {
+            } else if (IsDataValid("Invoice")) {
+                PreviousInvoiceIndex = InvoiceListbox.SelectedIndex;
                 UpdateInvoiceRecord();
             }
 
@@ -113,10 +143,12 @@ namespace comp255_Final {
         }
 
         private void SaveInvoiceItemButton_Click(object sender, RoutedEventArgs e) {
-
-            // If data validates successfully, execute update query
-            if (IsDataValid("InvoiceItem")) {
-                PreviousIndex = InvoiceItemsListbox.SelectedIndex;
+            // if nothing is selected, break out of the event
+            if (InvoiceItemsListbox.SelectedIndex == -1) {
+                return;
+            } // If data validates successfully, execute update query
+            else if (IsDataValid("InvoiceItem")) {
+                PreviousInvoiceItemIndex = InvoiceItemsListbox.SelectedIndex;
                 UpdateInvoiceItemRecord();
             }
 
@@ -132,40 +164,70 @@ namespace comp255_Final {
                 LoadInvoices(); // load data
                 LoadInvoiceItems(CurrentInvoiceItem.InvoiceID);
                 DisplayInvoiceFields(); // display field data for the new invoice
+                ClearInvoiceItemsFields(); // clear the old form data
+
+                // If it's the first item added, make that the selected index.
+                if (InvoiceListbox.Items.Count == 1) {
+                    InvoiceListbox.SelectedIndex = 0;
+                } // otherwise, make the most recent item the selected index. 
+                else {
+                    InvoiceListbox.SelectedIndex = InvoiceListbox.Items.Count - 1;
+                }
             }
         }
 
         private void NewInvoiceItemButton_Click(object sender, RoutedEventArgs e) {
-            // If the data successfully validates, 
-            if (IsDataValid("InvoiceItem")) {
+            // If an Invoice hasn't been selected display error then break out
+            if (InvoiceIndex == -1) {
+                InvoiceItemErrorLabel.Content = "Select an Invoice before adding an Invoice Item.";
+                return;
+            // proceed if the data successfully validates 
+            } else if (IsDataValid("InvoiceItem")) {
+                PreviousInvoiceIndex = InvoiceListbox.SelectedIndex; // update state of previous index
                 InsertInvoiceItemRecord(); // execute insert query
                 LoadInvoices(); // load data
                 LoadInvoiceItems(CurrentInvoiceItem.InvoiceID);
                 DisplayInvoiceItemFields(); // display field values
+
+                // If it's the first item added, make that the selected index.
+                if (InvoiceItemsListbox.Items.Count == 1) {
+                    InvoiceItemsListbox.SelectedIndex = 0;
+                } // otherwise, make the most recent item the selected index. 
+                else {
+                    InvoiceItemsListbox.SelectedIndex = InvoiceItemsListbox.Items.Count - 1;
+                }
             }
         }
 
         // Delete Buttons
         private void DeleteInvoiceButton_Click(object sender, RoutedEventArgs e) {
-            // Delete only if there are items to delete.
-            if (InvoiceItemsListbox.Items.Count > 0) {
-                DeleteInvoiceRecords(); // execute query to delete all invoice records
-                DeleteInvoice(); // execute query to delete the invoice
-            }
+            DeleteInvoiceRecords(); // execute query to delete all invoice records
+            DeleteInvoice(); // execute query to delete the invoice
         }
 
         private void DeleteInvoiceItemButton_Click(object sender, RoutedEventArgs e) {
-            // Delete only if there are items to delete.
-            if (InvoiceItemsListbox.Items.Count > 0) {
+            // Update the state of the previous invoice index
+            PreviousInvoiceIndex = InvoiceItemsIndex;
+            
+            // If no Invoice Items are selected, don't proceed.
+            if (InvoiceItemsIndex == -1) {
+                return;
+            } // Delete only if there are items to delete. 
+            else if (InvoiceItemsListbox.Items.Count > 0) {
                 DeleteInvoiceItem(); // execute query to delete single invoice item
+
+                /* Set the Listbox selected index to PreviousInvoiceIndex - 1 
+                unless it returns -1, then set index to 0. */
+                InvoiceItemsListbox.SelectedIndex = PreviousInvoiceIndex - 1 < 0 ? 0 : PreviousInvoiceIndex - 1;
             }
         }
 
         // ---- Database Methods
 
         void LoadInvoices() {
-            // Clear the listbox and reset count
+            // Clear the listbox, InvoiceCollection, and reset count
             InvoiceListbox.Items.Clear();
+            InvoiceCollection.Clear();
             InvoiceCount = 0;
 
             // Setup and open a connection
@@ -196,6 +258,7 @@ namespace comp255_Final {
 
                         // Add the object to the listbox
                         InvoiceListbox.Items.Add(TempInvoice);
+                        InvoiceCollection.Add(TempInvoice);
                         InvoiceCount++; // Increment the count
                     }
                 }
@@ -203,8 +266,9 @@ namespace comp255_Final {
         }
 
         void LoadInvoiceItems(int InvoiceID) {
-            // Clear the listbox as well as reset the count and subtotal
+            // Clear the listbox & InvoiceItem collection and reset count & subtotal
             InvoiceItemsListbox.Items.Clear();
+            InvoiceItemCollection.Clear();
             InvoiceItemsCount = 0;
             Subtotal = 0;
 
@@ -238,6 +302,7 @@ namespace comp255_Final {
                         Subtotal += (int)Reader["ItemQuantity"] * Convert.ToDouble(Reader["ItemPrice"]);
                         // Add the object to the list collection
                         InvoiceItemsListbox.Items.Add(TempInvoiceItem);
+                        InvoiceItemCollection.Add(TempInvoiceItem);
                         InvoiceItemsCount++; // increment the count
                     }
                 }
@@ -459,15 +524,9 @@ namespace comp255_Final {
                         throw error;
                     }
 
-                    // Load the data
+                    // Load the data & display form fields
                     LoadInvoiceItems(CurrentInvoice.InvoiceID);
-
-                    // Check to see if there are any items in the Invoice listbox
-                    if (InvoiceListbox.Items.Count > 0) {
-                        // Set the value of the current invoice and display form data
-                        CurrentInvoice = (Invoice)InvoiceListbox.Items[0];
-                        DisplayInvoiceFields();
-                    }
+                    DisplayInvoiceFields();
                 }
             }
         }
@@ -498,18 +557,17 @@ namespace comp255_Final {
 
                     // load the data
                     LoadInvoices();
+                    ClearInvoiceItemsFields();
 
                     // Check to see if the InvoiceListbox has any items
                     if (InvoiceListbox.Items.Count > 0) {
                         // set the current invoice value
                         CurrentInvoice = (Invoice)InvoiceListbox.Items[0];
-                        LoadInvoiceItems(CurrentInvoice.InvoiceID); // Load InvoiceItems for the current Invoice
-                        DisplayInvoiceFields(); // display form field data
-                        DisplayInvoiceItemFields();
-                        // Otherwise, clear invoice item form fields
-                    } else {
-                        ClearInvoiceItemsFields();
-                    }
+                        DisplayInvoiceFields(); // display invoiceform field data
+
+                        // Load InvoiceItems for the current Invoice
+                        LoadInvoiceItems(CurrentInvoice.InvoiceID); 
+                    } 
                 }
             }
         }
@@ -561,14 +619,23 @@ namespace comp255_Final {
 
         // Display & Clear field methods
         void DisplayInvoiceFields() {
-            // Update the Invoice fields
+            // Update the Invoice fields if the current invoice object is not null
             if (CurrentInvoice != null) {
                 InvoiceIDTextbox.Text = Convert.ToString(CurrentInvoice.InvoiceID);
                 CustomerNameTextbox.Text = CurrentInvoice.CustomerName;
                 CustomerAddressTextbox.Text = CurrentInvoice.CustomerAddress;
-                InvoiceDateTextbox.Text = Convert.ToString(CurrentInvoice.InvoiceDate);
+                InvoiceDateTextbox.Text = CurrentInvoice.InvoiceDate.ToShortDateString();
                 CustomerEmailTextbox.Text = CurrentInvoice.CustomerEmail;
                 ShippedCheckbox.IsChecked = CurrentInvoice.ShippingStatus;
+
+                // Calculate price data before updating price fields
+                CalculatePriceTotals();
+
+                // Update price fields
+                SubtotalTextbox.Text = Convert.ToString(Math.Round(Subtotal, 2));
+                PSTTextbox.Text = Convert.ToString(Math.Round(PST, 2));
+                GSTTextbox.Text = Convert.ToString(Math.Round(GST, 2));
+                TotalTextbox.Text = Convert.ToString(Math.Round(Total, 2));
             }
         }
 
@@ -584,10 +651,10 @@ namespace comp255_Final {
             CalculatePriceTotals();
 
             // Update price fields
-            SubtotalTextbox.Text = Convert.ToString(Subtotal);
-            PSTTextbox.Text = Convert.ToString(PST);
-            GSTTextbox.Text = Convert.ToString(GST);
-            TotalTextbox.Text = Convert.ToString(Total);
+            SubtotalTextbox.Text = Convert.ToString(Math.Round(Subtotal, 2));
+            PSTTextbox.Text = Convert.ToString(Math.Round(PST, 2));
+            GSTTextbox.Text = Convert.ToString(Math.Round(GST, 2));
+            TotalTextbox.Text = Convert.ToString(Math.Round(Total, 2));
         }
 
         void ClearInvoiceItemsFields() {
