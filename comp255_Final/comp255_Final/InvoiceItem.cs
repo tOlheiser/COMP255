@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace comp255_Final {
     class InvoiceItem {
-        // initialize instance variables
-        private int itemID;
-        private int invoiceID;
-        private string itemName;
-        private string itemDescription;
-        private int itemQuantity;
-        private double itemPrice;
-
         // Default Constructor
         public InvoiceItem() { }
 
@@ -39,9 +31,9 @@ namespace comp255_Final {
         // Override ToString to display useful info in the listbox
         // ---> Reference: https://tinyurl.com/lcc96th
         public override string ToString() {
-            // Test data
-            // Implement formatted string later.
-            return ItemName + " has an ItemID of " + ItemID;
+            // Output formatted string
+            return $"{ItemID, 5}{" ",-8}{ItemName, -41}{ItemDescription, -49}{ItemPrice, -27}" +
+                $"{ItemQuantity, -31}{ItemPrice * ItemQuantity, -10}";
         }
 
     }

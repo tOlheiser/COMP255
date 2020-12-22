@@ -6,14 +6,6 @@ using System.Threading.Tasks;
 
 namespace comp255_Final {
     class Invoice {
-        // initialize instance variables
-        private int invoiceID;
-        private string customerName;
-        private string customerAddress;
-        private string customerEmail;
-        private DateTime invoiceDate;
-        private bool shippingStatus;
-
         // Default Constructor
         public Invoice() { }
 
@@ -35,5 +27,14 @@ namespace comp255_Final {
         public string CustomerEmail { get; set; }
         public DateTime InvoiceDate { get; set; }
         public bool ShippingStatus { get; set; }
+
+        // Override ToString to display useful info in the listbox
+        public override string ToString() {
+            // Determine what the value of shipped is
+            string Shipped = ShippingStatus == true ? "Yes" : "No";
+            // Output formatted string
+            return $"{InvoiceID, 5}{" ",-20}{CustomerName, -48}{CustomerEmail.Trim(), -34}{Shipped, -8}";
+        }
+
     }
 }
